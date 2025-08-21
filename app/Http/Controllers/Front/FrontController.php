@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Front;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class FrontController extends Controller
 {
     public function index()
     {
-        return view('home');
+        return view('front.home');
     }
     public function about()
     {
-        return view('about');
+        return view('front.about');
     }
 }

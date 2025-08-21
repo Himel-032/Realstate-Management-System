@@ -1,2 +1,6 @@
+@include('admin.top')
 <h2>Admin Dashboard</h2>
-<a href="{{ route('admin_logout') }}">Logout</a>
+
+<p>
+    Welcome, {{ Auth::guard('admin')->user()->name }}! You are logged in as an admin.
+</p>

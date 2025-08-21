@@ -1,4 +1,6 @@
-<h2>Admin Login</h2>
+@include('user.top')
+<h2>Registration Page</h2>
+
 @if($errors->any())
     @foreach($errors->all() as $error)
         {{ $error }}
@@ -13,9 +15,15 @@
         {{ session('error') }}
 @endif
 
-<form action="{{ route('admin_login_submit') }}" method="post">
+<form action="{{ route('registration_submit') }}" method="post">
     @csrf
     <table>
+        <tr>
+            <td>Name:</td>
+            <td>
+                <input type="text" name="name" placeholder="Name" >
+            </td>
+        </tr>
         <tr>
             <td>Email:</td>
             <td>
@@ -29,12 +37,17 @@
             </td>
         </tr>
         <tr>
+            <td>Confirm Password:</td>
+            <td>
+                <input type="password" name="confirm_password" placeholder="Confirm Password">
+            </td>
+        </tr>
+        <tr>
             <td></td>
             <td>
-                <button type="submit">Login</button>
-                <div>
-                    <a href="{{ route('admin_forget_password') }}">Forget Password</a>
-                </div>
+                
+                <button type="submit">Submit</button>
+                
             </td>
         </tr>
     </table>

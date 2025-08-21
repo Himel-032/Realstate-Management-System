@@ -1,4 +1,6 @@
-<h2>Admin Login</h2>
+@include('user.top')
+<h2>Login Page</h2>
+
 @if($errors->any())
     @foreach($errors->all() as $error)
         {{ $error }}
@@ -13,9 +15,10 @@
         {{ session('error') }}
 @endif
 
-<form action="{{ route('admin_login_submit') }}" method="post">
+<form action="{{ route('login_submit') }}" method="post">
     @csrf
     <table>
+        
         <tr>
             <td>Email:</td>
             <td>
@@ -28,13 +31,15 @@
                 <input type="password" name="password" placeholder="Password">
             </td>
         </tr>
+       
         <tr>
             <td></td>
             <td>
-                <button type="submit">Login</button>
-                <div>
-                    <a href="{{ route('admin_forget_password') }}">Forget Password</a>
-                </div>
+                <button type="submit">Submit</button>
+            
+            <div>
+            <a href="{{ route('forget_password') }}">Forget Password</a>
+            </div>
             </td>
         </tr>
     </table>
