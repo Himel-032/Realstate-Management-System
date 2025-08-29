@@ -9,7 +9,7 @@ use App\Http\Controllers\Admin\AdminController;
 
 
 Route::get('/', [FrontController::class, 'index'])->name('home');
-Route::get('/about', [FrontController::class, 'about'])->name('about');
+Route::get('/contact', [FrontController::class, 'contact'])->name('contact');
 
 //User 
 Route::middleware('auth')->group(function () {
