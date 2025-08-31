@@ -40,7 +40,7 @@
                             <a href="{{ route('contact') }}" class="nav-link">Contact</a>
                         </li>
                         <li class="nav-item">
-                            <a href="Login.html" class="nav-link">Login</a>
+                            <a href="{{ route('select_user') }}" class="nav-link">Login</a>
                         </li>
                     </ul>
                 </div>

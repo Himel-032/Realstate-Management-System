@@ -1,6 +1,5 @@
 
-<a href="{{ route('home') }}">Home</a> | 
-<a href="{{ route('about') }}">About</a> | 
+<a href="{{ route('home') }}">Home</a> |  
 @if(Auth::guard('web')->check())
 <a href="{{ route('dashboard') }}">Dashboard</a> |
 <a href="{{ route('profile') }}">Profile</a> |

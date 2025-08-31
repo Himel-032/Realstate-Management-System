@@ -15,4 +15,8 @@ class FrontController extends Controller
     {
         return view('front.contact');
     }
+    public function select_user()
+    {
+        return view('front.select_user');
+    }
 }

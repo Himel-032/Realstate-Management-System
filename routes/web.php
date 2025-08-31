@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\AdminController;
 
 Route::get('/', [FrontController::class, 'index'])->name('home');
 Route::get('/contact', [FrontController::class, 'contact'])->name('contact');
+Route::get('/select-user', [FrontController::class,'select_user'])->name('select_user');
 
 //User 
 Route::middleware('auth')->group(function () {

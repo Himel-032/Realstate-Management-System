@@ -2014,3 +2014,30 @@ h4.resume {
     font-size: 22px;
     font-weight: 700;
 }
+.main-select-user {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.main-select-user .select-customer{
+    background: #c7dbfb;
+    text-align: center;
+    padding: 60px;
+}
+.main-select-user .select-customer a {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000;
+    text-decoration: underline;
+}
+
+.main-select-user .select-agent{
+    background: #d3fdd9;
+    text-align: center;
+    padding: 60px;
+}
+.main-select-user .select-agent a {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000;
+    text-decoration: underline;
+}
