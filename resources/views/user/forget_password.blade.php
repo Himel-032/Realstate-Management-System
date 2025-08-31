@@ -1,36 +1,39 @@
-@include('user.top')
-<h2>Forget Password</h2>
-@if($errors->any())
-    @foreach($errors->all() as $error)
-        {{ $error }}
-    @endforeach
-@endif
+@extends('front.layouts.master')
+@section('main_content')
 
-@if(session('success'))
-        {{ session('success') }}
-@endif
-
-@if(session('error'))
-        {{ session('error') }}
-@endif
-
-<form action="{{ route('forget_password_submit') }}" method="post">
-    @csrf
-    <table>
-        <tr>
-            <td>Email:</td>
-            <td>
-                <input type="text" name="email" placeholder="Email" >
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>
-                <button type="submit">Submit</button>
-                <div>
-                    <a href="{{ route('login') }}">Back to Login Page</a>
+    <div class="page-top" style="background-image: url({{ asset('uploads/banner.jpg') }})">
+        <div class="bg"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Forget Password</h2>
                 </div>
-            </td>
-        </tr>
-    </table>
-</form>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-content">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-4 col-lg-5 col-md-6 col-sm-12">
+                    <div class="login-form">
+                        <form action="{{ route('forget_password_submit') }}" method="post">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="" class="form-label">Email Address</label>
+                                <input type="text" name="email" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary bg-website">
+                                    Submit
+                                </button>
+                                <a href="{{ route('login') }}" class="primary-color">Back to Login Page</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@endsection

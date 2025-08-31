@@ -180,22 +180,11 @@ class UserController extends Controller
                 'confirm_password' => 'required|same:password',
             ]);
             $user->password = Hash::make($request->password);
-        } else {
-            $user->password = Auth::guard('web')->user()->password; // Keep the old password if not changed
-        }
+        } 
         
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->phone = $request->phone;
-        $user->address = $request->address;
-        $user->city = $request->city;
-        $user->state = $request->state;
-        $user->country = $request->country;
-        $user->zip = $request->zip;
         
-
-        
-
         $user->update();
 
         return redirect()->back()->with('success', 'Profile updated successfully');

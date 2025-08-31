@@ -39,9 +39,19 @@
                         <li class="nav-item">
                             <a href="{{ route('contact') }}" class="nav-link">Contact</a>
                         </li>
+                        @if(Auth::guard('web')->check())
                         <li class="nav-item">
-                            <a href="{{ route('select_user') }}" class="nav-link">Login</a>
+                            <a href="{{ route('dashboard') }}" class="nav-link">Customer Dashboard</a>
                         </li>
+                        @elseif(Auth::guard('agent')->check())
+                            <li class="nav-item">
+                                <a href="{{ route('agent_dashboard') }}" class="nav-link">Agent Dashboard</a>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a href="{{ route('select_user') }}" class="nav-link">Login</a>
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </nav>

@@ -17,32 +17,7 @@
             <div class="row">
                 <div class="col-lg-3 col-md-12">
                     <div class="card">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item {{ request()->is('dashboard') ? 'active' : '' }}">
-                                <a href="{{ route('dashboard') }}">Dashboard</a>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="">Make Payment</a>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="">Orders</a>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="">Add Property</a>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="">All Properties</a>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="">Wishlist</a>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="">Edit Profile</a>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="{{ route('logout') }}">Logout</a>
-                            </li>
-                        </ul>
+                        @include('user.sidebar')
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-12">
