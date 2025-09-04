@@ -155,27 +155,29 @@ class AgentController extends Controller
     public function profile()
     {
 
-        return view('user.profile');
+        return view('agent.profile.index');
     }
-    public function profile_submit(Request $request)
+    public function agent_profile_submit(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . Auth::guard('web')->user()->id,
+            'email' => 'required|email|max:255|unique:agents,email,' . Auth::guard('agent')->user()->id,
+            'company' => 'required',
+            'designation' => 'required',
         ]);
-        $user = User::where('id', Auth::guard('web')->user()->id)->first();
+        $agent = Agent::where('id', Auth::guard('agent')->user()->id)->first();
 
         if ($request->photo) {
             $request->validate([
                 'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
 
-            $final_name = 'user_' . time() . '.' . $request->photo->extension();
-            if ($user->photo != '') {
-                unlink(public_path('uploads/' . $user->photo));
+            $final_name = 'agent_' . time() . '.' . $request->photo->extension();
+            if ($agent->photo != '') {
+                unlink(public_path('uploads/' . $agent->photo));
             }
             $request->photo->move(public_path('uploads'), $final_name);
-            $user->photo = $final_name;
+            $agent->photo = $final_name;
         }
 
         if ($request->password) {
@@ -183,13 +185,27 @@ class AgentController extends Controller
                 'password' => 'required|min:6',
                 'confirm_password' => 'required|same:password',
             ]);
-            $user->password = Hash::make($request->password);
+            $agent->password = Hash::make($request->password);
         }
 
-        $user->name = $request->name;
-        $user->email = $request->email;
+        $agent->name = $request->name;
+        $agent->email = $request->email;
+        $agent->company = $request->company;
+        $agent->designation = $request->designation;
+        $agent->phone = $request->phone;
+        $agent->address = $request->address;
+        $agent->country = $request->country;
+        $agent->city = $request->city;
+        $agent->state = $request->state;
+        $agent->zip = $request->zip;
+        $agent->facebook = $request->facebook;
+        $agent->twitter = $request->twitter;
+        $agent->linkedin = $request->linkedin;
+        $agent->instagram = $request->instagram;
+        $agent->website = $request->website;
+        $agent->biography = $request->biography;
 
-        $user->update();
+        $agent->update();
 
         return redirect()->back()->with('success', 'Profile updated successfully');
     }
