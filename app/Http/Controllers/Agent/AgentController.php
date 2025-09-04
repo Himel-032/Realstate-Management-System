@@ -13,11 +13,11 @@ class AgentController extends Controller
 {
     public function dashboard()
     {
-        return view('agent.dashboard');
+        return view('agent.dashboard.index');
     }
     public function registration()
     {
-        return view('agent.registration');
+        return view('agent.auth.registration');
     }
 
     public function registration_submit(Request $request)
@@ -67,7 +67,7 @@ class AgentController extends Controller
 
     public function login()
     {
-        return view('agent.login');
+        return view('agent.auth.login');
     }
     public function login_submit(Request $request)
     {
@@ -83,8 +83,8 @@ class AgentController extends Controller
             'status' => 1,
         ];
 
-        if (Auth::guard('web')->attempt($data)) {
-            return redirect()->route('dashboard')->with('success', 'Login successful');
+        if (Auth::guard('agent')->attempt($data)) {
+            return redirect()->route('agent_dashboard')->with('success', 'Login successful');
         } else {
             return redirect()->back()->with('error', 'Invalid credentials');
         }
@@ -93,13 +93,13 @@ class AgentController extends Controller
 
     public function logout()
     {
-        Auth::guard('web')->logout();
-        return redirect()->route('login')->with('success', 'Logout successful');
+        Auth::guard('agent')->logout();
+        return redirect()->route('agent_login')->with('success', 'Logout successful');
     }
 
     public function forget_password()
     {
-        return view('user.forget_password');
+        return view('agent.auth.forget_password');
     }
     public function forget_password_submit(Request $request)
     {
