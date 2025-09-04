@@ -107,17 +107,17 @@ class AgentController extends Controller
             'email' => 'required|email',
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $agent = Agent::where('email', $request->email)->first();
 
-        if (!$user) {
+        if (!$agent) {
             return redirect()->back()->with('error', 'Email not found');
         }
 
         $token = hash('sha256', time());
-        $user->token = $token;
-        $user->update();
+        $agent->token = $token;
+        $agent->update();
 
-        $link = route('reset_password', [$token, $request->email]);
+        $link = route('agent_reset_password', [$token, $request->email]);
         $subject = 'Reset Password';
         $message = 'Click the link to reset your password: <br>';
         $message .= '<a href="' . $link . '">' . $link . '</a>';
@@ -128,11 +128,11 @@ class AgentController extends Controller
 
     public function reset_password($token, $email)
     {
-        $user = User::where('email', $email)->where('token', $token)->first();
-        if (!$user) {
-            return redirect()->route('login')->with('error', 'Invalid token or email');
+        $agent = Agent::where('email', $email)->where('token', $token)->first();
+        if (!$agent) {
+            return redirect()->route('agent_login')->with('error', 'Invalid token or email');
         }
-        return view('user.reset_password', compact('token', 'email'));
+        return view('agent.auth.reset_password', compact('token', 'email'));
     }
 
     public function reset_password_submit(Request $request, $token, $email)
@@ -142,14 +142,14 @@ class AgentController extends Controller
             'confirm_password' => 'required|same:password',
         ]);
 
-        $user = User::where('email', $email)->where('token', $token)->first();
+        $agent = Agent::where('email', $email)->where('token', $token)->first();
 
 
-        $user->password = Hash::make($request->password);
-        $user->token = ''; // Clear the token after password reset
-        $user->update();
+        $agent->password = Hash::make($request->password);
+        $agent->token = ''; // Clear the token after password reset
+        $agent->update();
 
-        return redirect()->route('login')->with('success', 'Password reset successful');
+        return redirect()->route('agent_login')->with('success', 'Password reset successful');
     }
 
     public function profile()

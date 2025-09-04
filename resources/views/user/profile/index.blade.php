@@ -6,7 +6,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h2>Edit Profile</h2>
+                    <h2>Customer Edit Profile</h2>
                 </div>
             </div>
         </div>
@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-lg-3 col-md-12">
                     <div class="card">
-                        @include('user.sidebar')
+                        @include('user.sidebar.index')
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-12">
