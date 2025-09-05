@@ -75,8 +75,8 @@
                                                     @endif
                                                 </td>
                                                     <td>
-                                                        <a href="" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                        <a href="" class="btn btn-danger btn-sm" onClick="return confirm('Are you sure?');"><i class="fas fa-trash"></i></a>
+                                                        <a href="{{ route('admin_package_edit', $package->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                        <a href="{{ route('admin_package_delete', $package->id) }}" class="btn btn-danger btn-sm" onClick="return confirm('Are you sure?');"><i class="fas fa-trash"></i></a>
                                                     </td>
                                                 </tr>
                                             @endforeach

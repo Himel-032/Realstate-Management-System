@@ -67,6 +67,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/package/index', [AdminPackageController::class, 'index'])->name('admin_package_index');
     Route::get('/package/create', [AdminPackageController::class, 'create'])->name('admin_package_create');
     Route::post('/package/store', [AdminPackageController::class, 'store'])->name('admin_package_store');
+    Route::get('/package/edit/{id}', [AdminPackageController::class, 'edit'])->name('admin_package_edit');
+    Route::post('/package/update/{id}', [AdminPackageController::class, 'update'])->name('admin_package_update');
+    Route::get('/package/delete/{id}', [AdminPackageController::class, 'delete'])->name('admin_package_delete');
 });
 
 Route::prefix('admin')->group(function () {
