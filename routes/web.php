@@ -6,6 +6,7 @@ use App\Http\Controllers\Front\FrontController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Agent\AgentController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminPackageController;
 
 
 // front end
@@ -61,6 +62,11 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin_dashboard');
     Route::get('/profile', [AdminController::class, 'profile'])->name('admin_profile');
     Route::post('/profile', [AdminController::class, 'admin_profile_submit'])->name('admin_profile_submit');
+
+
+    Route::get('/package/index', [AdminPackageController::class, 'index'])->name('admin_package_index');
+    Route::get('/package/create', [AdminPackageController::class, 'create'])->name('admin_package_create');
+    Route::post('/package/store', [AdminPackageController::class, 'store'])->name('admin_package_store');
 });
 
 Route::prefix('admin')->group(function () {

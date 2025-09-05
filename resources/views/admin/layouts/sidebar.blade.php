@@ -11,6 +11,11 @@
 
             <li class="{{ Request::is('admin/dashboard') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin_dashboard') }}"><i class="fas fa-home"></i>
                     <span>Dashboard</span></a></li>
+
+            <li class="{{ Request::is('admin/package/*') ? 'active' : '' }}"><a class="nav-link"
+                        href="{{ route('admin_package_index') }}"><i class="fas fa-file"></i>
+                        <span>Package</span></a></li>
+
             <li class="{{ Request::is('admin/profile') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin_profile') }}"><i class="fas fa-file"></i>
                     <span>Edit Profile</span></a></li>
             <li><a class="nav-link" href="{{ route('admin_logout') }}"><i class="fas fa-sign-out-alt"></i>
