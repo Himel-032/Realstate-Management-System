@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\AdminPackageController;
 Route::get('/', [FrontController::class, 'index'])->name('home');
 Route::get('/contact', [FrontController::class, 'contact'])->name('contact');
 Route::get('/select-user', [FrontController::class,'select_user'])->name('select_user');
+Route::get('/pricing', [FrontController::class, 'pricing'])->name('pricing');
 
 //User 
 Route::middleware('auth')->group(function () {

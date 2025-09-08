@@ -28,7 +28,7 @@
                             <a href="locations.html" class="nav-link">Locations</a>
                         </li>
                         <li class="nav-item">
-                            <a href="pricing.html" class="nav-link">Pricing</a>
+                            <a href="{{ route('pricing') }}" class="nav-link">Pricing</a>
                         </li>
                         <li class="nav-item">
                             <a href="faq.html" class="nav-link">FAQ</a>
