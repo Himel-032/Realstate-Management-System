@@ -7,6 +7,7 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Agent\AgentController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminPackageController;
+use App\Http\Controllers\Admin\AdminLocationController;
 
 
 // front end
@@ -71,6 +72,14 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/package/edit/{id}', [AdminPackageController::class, 'edit'])->name('admin_package_edit');
     Route::post('/package/update/{id}', [AdminPackageController::class, 'update'])->name('admin_package_update');
     Route::get('/package/delete/{id}', [AdminPackageController::class, 'delete'])->name('admin_package_delete');
+
+
+    Route::get('/location/index', [AdminLocationController::class, 'index'])->name('admin_location_index');
+    Route::get('/location/create', [AdminLocationController::class, 'create'])->name('admin_location_create');
+    Route::post('/location/store', [AdminLocationController::class, 'store'])->name('admin_location_store');
+    Route::get('/location/edit/{id}', [AdminLocationController::class, 'edit'])->name('admin_location_edit');
+    Route::post('/location/update/{id}', [AdminLocationController::class, 'update'])->name('admin_location_update');
+    Route::get('/location/delete/{id}', [AdminLocationController::class, 'delete'])->name('admin_location_delete');
 });
 
 Route::prefix('admin')->group(function () {
