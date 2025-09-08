@@ -43,7 +43,7 @@ class AdminTypeController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => ['required', 'unique:types,name'],
+            'name' => ['required', 'unique:types,name,' .$id],
         ]);
 
         $type = Type::where('id', $id)->first();
