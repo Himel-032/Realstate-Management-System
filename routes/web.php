@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminPackageController;
 use App\Http\Controllers\Admin\AdminLocationController;
 use App\Http\Controllers\Admin\AdminTypeController;
+use App\Http\Controllers\Admin\AdminAmenityController;
 
 
 // front end
@@ -88,6 +89,13 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/type/edit/{id}', [AdminTypeController::class, 'edit'])->name('admin_type_edit');
     Route::post('/type/update/{id}', [AdminTypeController::class, 'update'])->name('admin_type_update');
     Route::get('/type/delete/{id}', [AdminTypeController::class, 'delete'])->name('admin_type_delete');
+
+    Route::get('/amenity/index', [AdminAmenityController::class, 'index'])->name('admin_amenity_index');
+    Route::get('/amenity/create', [AdminAmenityController::class, 'create'])->name('admin_amenity_create');
+    Route::post('/amenity/store', [AdminAmenityController::class, 'store'])->name('admin_amenity_store');
+    Route::get('/amenity/edit/{id}', [AdminAmenityController::class, 'edit'])->name('admin_amenity_edit');
+    Route::post('/amenity/update/{id}', [AdminAmenityController::class, 'update'])->name('admin_amenity_update');
+    Route::get('/amenity/delete/{id}', [AdminAmenityController::class, 'delete'])->name('admin_amenity_delete');
 });
 
 Route::prefix('admin')->group(function () {
