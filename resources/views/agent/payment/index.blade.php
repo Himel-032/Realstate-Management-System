@@ -56,7 +56,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <form action="" method="post">
+                                        <form action="{{ route('agent_stripe') }}"" method="post">
                                             @csrf
                                         <select name="package_id" class="form-control select2">
                                             @foreach($packages as $package)

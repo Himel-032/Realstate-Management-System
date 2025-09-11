@@ -254,7 +254,6 @@ class AgentController extends Controller
             foreach ($response['links'] as $link) {
                 if ($link['rel'] == 'approve') {
                     session()->put('package_id', $request->package_id);
-                    session()->put('quantity', $request->quantity);
                     return redirect()->away($link['href']);
                 }
             }
@@ -298,6 +297,69 @@ class AgentController extends Controller
 
         } else {
             return redirect()->route('agent_payment')->with('error','Payment failed. Please try again.');
+        }
+    }
+
+    public function stripe(Request $request)
+    {
+        $package_data = Package::where('id', $request->package_id)->first();
+
+        $stripe = new \Stripe\StripeClient(config('stripe.stripe_sk'));
+        $response = $stripe->checkout->sessions->create([
+            'line_items' => [
+                [
+                    'price_data' => [
+                        'currency' => 'usd',
+                        'product_data' => [
+                            'name' => $package_data->name,
+                        ],
+                        'unit_amount' => $package_data->price * 100,
+                    ],
+                    'quantity' => 1,
+                ],
+            ],
+            'mode' => 'payment',
+            'success_url' => route('agent_stripe_success') . '?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => route('agent_stripe_cancel'),
+        ]);
+        //dd($response);
+        if (isset($response->id) && $response->id != '') {
+            session()->put('package_id', $request->package_id);
+            return redirect($response->url);
+        } else {
+            return redirect()->route('agent_payment')->with('error', 'Payment failed. Please try again.');
+        }
+    }
+
+    public function stripe_success(Request $request)
+    {
+        if (isset($request->session_id)) {
+
+            $stripe = new \Stripe\StripeClient(config('stripe.stripe_sk'));
+            $response = $stripe->checkout->sessions->retrieve($request->session_id);
+            //dd($response);
+
+            $package_data = Package::where('id', session()->get('package_id'))->first();
+            // all previous order will be inactive
+            Order::where('agent_id', Auth::guard('agent')->user()->id)->update(['currently_active' => 0]);
+            // Insert data into database
+            $order = new Order;
+            $order->agent_id = Auth::guard('agent')->user()->id;
+            $order->package_id = session()->get('package_id');
+            $order->transaction_id = $response->id;
+            $order->payment_method = 'Stripe';
+            $order->paid_amount = $package_data->price;
+            $order->purchase_date = date('Y-m-d');
+            $order->expire_date = date('Y-m-d', strtotime('+' . $package_data->allowed_days . ' days'));
+            $order->status = 'Completed';
+            $order->currently_active = 1;
+            $order->save();
+
+            session()->forget('package_id');
+
+            return redirect()->route('agent_order')->with('success', 'Payment successful. Your order  has been placed.');
+        } else {
+            return redirect()->route('agent_payment')->with('error', 'Payment failed. Please try again.');
         }
     }
 }

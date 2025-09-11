@@ -45,6 +45,10 @@ Route::middleware('agent')->prefix('agent')->group(function () {
     Route::post('/paypal', [AgentController::class, 'paypal'])->name('agent_paypal');
     Route::get('/paypal-success', [AgentController::class, 'paypal_success'])->name('agent_paypal_success');
     Route::get('/paypal-cancel', [AgentController::class, 'paypal_cancel'])->name('agent_paypal_cancel');
+
+    Route::post('/stripe', [AgentController::class, 'stripe'])->name('agent_stripe');
+    Route::get('/stripe-success', [AgentController::class, 'stripe_success'])->name('agent_stripe_success');
+    Route::get('/stripe-cancel', [AgentController::class, 'stripe_cancel'])->name('agent_stripe_cancel');
 });
 
 Route::prefix('agent')->group(function () {
