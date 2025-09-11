@@ -11,4 +11,8 @@ use Illuminate\Database\Eloquent\Model;
 class Agent extends Authenticatable
 {
     use HasFactory, Notifiable;
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

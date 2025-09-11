@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Hash;
 use Auth;
 use App\Models\Agent;
+use App\Models\Package;
+use App\Models\Order;
 use App\Mail\WebsiteMail;
 
 class AgentController extends Controller
@@ -208,5 +210,12 @@ class AgentController extends Controller
         $agent->update();
 
         return redirect()->back()->with('success', 'Profile updated successfully');
+    }
+
+    public function payment()
+    {
+        $total_current_order = Order::where('agent_id', Auth::guard('agent')->user()->id)->count();
+        $packages = Package::orderBy('id', 'asc')->get();
+        return view('agent.payment.index', compact('packages', 'total_current_order'));
     }
 }
