@@ -40,7 +40,11 @@ Route::middleware('agent')->prefix('agent')->group(function () {
     Route::get('/dashboard', [AgentController::class, 'dashboard'])->name('agent_dashboard');
     Route::get('/profile', [AgentController::class, 'profile'])->name('agent_profile');
     Route::post('/profile', [AgentController::class, 'agent_profile_submit'])->name('agent_profile_submit');
+    Route::get('/order', [AgentController::class,'order'])->name('agent_order');
     Route::get('/payment', [AgentController::class, 'payment'])->name('agent_payment');
+    Route::post('/paypal', [AgentController::class, 'paypal'])->name('agent_paypal');
+    Route::get('/paypal-success', [AgentController::class, 'paypal_success'])->name('agent_paypal_success');
+    Route::get('/paypal-cancel', [AgentController::class, 'paypal_cancel'])->name('agent_paypal_cancel');
 });
 
 Route::prefix('agent')->group(function () {

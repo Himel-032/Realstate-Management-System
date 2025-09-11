@@ -10,6 +10,7 @@ use App\Models\Agent;
 use App\Models\Package;
 use App\Models\Order;
 use App\Mail\WebsiteMail;
+use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class AgentController extends Controller
 {
@@ -211,11 +212,92 @@ class AgentController extends Controller
 
         return redirect()->back()->with('success', 'Profile updated successfully');
     }
+    public function order()
+    {
+        return view('agent.order.index');
+    }
 
     public function payment()
     {
         $total_current_order = Order::where('agent_id', Auth::guard('agent')->user()->id)->count();
         $packages = Package::orderBy('id', 'asc')->get();
-        return view('agent.payment.index', compact('packages', 'total_current_order'));
+
+        $current_order = Order::where('agent_id', Auth::guard('agent')->user()->id)->where('currently_active', 1)->first();
+
+        return view('agent.payment.index', compact('packages', 'total_current_order', 'current_order'));
+    }
+    public function paypal(Request $request)
+    {
+        //dd($request->all());
+        $package_data = Package::where('id', $request->package_id)->first();
+
+        $provider = new PayPalClient;
+        $provider->setApiCredentials(config('paypal'));
+        $paypalToken = $provider->getAccessToken();
+        $response = $provider->createOrder([
+            "intent" => "CAPTURE",
+            "application_context" => [
+                "return_url" => route('agent_paypal_success'),
+                "cancel_url" => route('agent_paypal_cancel')
+            ],
+            "purchase_units" => [
+                [
+                    "amount" => [
+                        "currency_code" => "USD",
+                        "value" => $package_data->price
+                    ]
+                ]
+            ]
+        ]);
+        //dd($response);
+        if (isset($response['id']) && $response['id'] != null) {
+            foreach ($response['links'] as $link) {
+                if ($link['rel'] == 'approve') {
+                    session()->put('package_id', $request->package_id);
+                    session()->put('quantity', $request->quantity);
+                    return redirect()->away($link['href']);
+                }
+            }
+        } else {
+            return redirect()->route('agent_payment')->with('error', 'Payment failed. Please try again.');
+        }
+    }
+    public function paypal_success(Request $request)
+    {
+
+        
+        $provider = new PayPalClient;
+        $provider->setApiCredentials(config('paypal'));
+        $paypalToken = $provider->getAccessToken();
+        $response = $provider->capturePaymentOrder($request->token);
+        //dd($response);
+        if(isset($response['status']) && $response['status'] == 'COMPLETED') {
+
+            $package_data = Package::where('id', session()->get('package_id'))->first();
+            // all previous order will be inactive
+             Order::where('agent_id', Auth::guard('agent')->user()->id)->update(['currently_active' => 0]);
+            // Insert data into database
+            $order = new Order;
+            $order->agent_id = Auth::guard('agent')->user()->id;
+            $order->package_id = session()->get('package_id');
+            $order->transaction_id = $response['id'];
+            $order->payment_method = 'PayPal';
+            $order->paid_amount = $package_data->price;
+            $order->purchase_date = date('Y-m-d');
+            $order->expire_date = date('Y-m-d', strtotime('+'.$package_data->allowed_days.' days'));
+            $order->status = 'Completed';
+            $order->currently_active = 1;
+            $order->save();
+               
+            session()->forget('package_id');
+
+            return redirect()->route('agent_order')->with('success', 'Payment successful. Your order  has been placed.');
+
+            
+
+
+        } else {
+            return redirect()->route('agent_payment')->with('error','Payment failed. Please try again.');
+        }
     }
 }

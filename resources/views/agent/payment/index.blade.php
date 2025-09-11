@@ -26,8 +26,8 @@
                         <div class="row box-items mb-4">
                             <div class="col-md-4">
                                 <div class="box1">
-                                    <h4>$19</h4>
-                                    <p>Basic</p>
+                                    <h4>${{ $current_order->package->price }}</h4>
+                                    <p>{{ $current_order->package->name }}</p>
                                 </div>
                             </div>
                         </div>
@@ -41,7 +41,7 @@
                             <table class="table table-bordered upgrade-plan-table">
                                 <tr>
                                     <td>
-                                        <form action="" method="post">
+                                        <form action="{{ route('agent_paypal') }}" method="post">
                                             @csrf
                                         <select name="package_id" class="form-control select2">
                                             @foreach($packages as $package)
