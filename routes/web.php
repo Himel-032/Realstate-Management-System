@@ -105,6 +105,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/amenity/edit/{id}', [AdminAmenityController::class, 'edit'])->name('admin_amenity_edit');
     Route::post('/amenity/update/{id}', [AdminAmenityController::class, 'update'])->name('admin_amenity_update');
     Route::get('/amenity/delete/{id}', [AdminAmenityController::class, 'delete'])->name('admin_amenity_delete');
+    Route::get('/order', [AdminController::class, 'order'])->name('admin_order');
 });
 
 Route::prefix('admin')->group(function () {

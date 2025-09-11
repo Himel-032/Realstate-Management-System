@@ -9,6 +9,7 @@ use Auth;
 use App\Models\Agent;
 use App\Models\Package;
 use App\Models\Order;
+use App\Models\Admin;
 use App\Mail\WebsiteMail;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
@@ -273,12 +274,15 @@ class AgentController extends Controller
         if(isset($response['status']) && $response['status'] == 'COMPLETED') {
 
             $package_data = Package::where('id', session()->get('package_id'))->first();
+            $invoice_no = 'INV-' . Auth::guard('agent')->user()->id . '-' . time();
+            $admin_data = Admin::where('id', 1)->first();
             // all previous order will be inactive
              Order::where('agent_id', Auth::guard('agent')->user()->id)->update(['currently_active' => 0]);
             // Insert data into database
             $order = new Order;
             $order->agent_id = Auth::guard('agent')->user()->id;
             $order->package_id = session()->get('package_id');
+            $order->invoice_no = $invoice_no;
             $order->transaction_id = $response['id'];
             $order->payment_method = 'PayPal';
             $order->paid_amount = $package_data->price;
@@ -287,7 +291,48 @@ class AgentController extends Controller
             $order->status = 'Completed';
             $order->currently_active = 1;
             $order->save();
-               
+
+            //sending email to user
+            $link = route('agent_order');
+            $subject = 'Payment Successful';
+            $message = 'Dear ' . Auth::guard('agent')->user()->name . '<br><br>';
+            $message .= 'Your payment has been successfully processed. Payment information is given below.<br><br>';
+            $message .= 'Invoice No: ' . $invoice_no . '<br>';
+            $message .= 'Payment method: Paypal<br>';
+            $message .= 'Transaction ID: ' . $response['id'] . '<br>';
+            $message .= 'Package Name: ' . $package_data->name . '<br>';
+            $message .= 'Paid Amount: $' . $package_data->price . '<br>';
+            $message .= 'Purchase Date: ' . date('Y-m-d') . '<br>';
+            $message .= 'Expire Date: ' . date('Y-m-d', strtotime('+' . $package_data->allowed_days . ' days')) . '<br><br>';
+            $message .= 'Click on the following link to view your order: <br>';
+            $message .= '<a href="' . $link . '">' . $link . '</a><br><br>';
+            $message .= 'Thank you for your order!<br><br>';
+            $message .= 'Best regards,<br>';
+            $message .= env('APP_NAME');
+            \Mail::to(Auth::guard('agent')->user()->email)->send(new WebsiteMail($subject, $message));
+
+
+            // sending mail to admin
+
+            $link = route('admin_order');
+            $subject = 'New Order Received';
+            $message = 'Dear Admin, <br><br>';
+            $message .= 'A new order has been received. Payment information is given below:<br><br>';
+            $message .= 'Invoice No: ' . $invoice_no . '<br>';
+            $message .= 'Agent Name: '.Auth::guard('agent')->user()->name.'<br>';
+            $message .= 'Agent Email: ' . Auth::guard('agent')->user()->email . '<br>';
+            $message .= 'Payment Method: Paypal<br>';
+            $message .= 'Transaction ID: ' . $response['id'] . '<br>';
+            $message .= 'Package Name: ' . $package_data->name . '<br>';
+            $message .= 'Paid Amount: $' . $package_data->price . '<br>';
+            $message .= 'Purchase Date: ' . date('Y-m-d') . '<br>';
+            $message .= 'Expire Date: ' . date('Y-m-d', strtotime('+' . $package_data->allowed_days . ' days')) . '<br><br>';
+            $message .= 'Click on the following link to view your order: <br>';
+            $message .= '<a href="' . $link . '">' . $link . '</a><br><br>';
+            $message .= 'Regards, <br>';
+            $message .= env('APP_NAME');
+
+            \Mail::to($admin_data->email)->send(new WebsiteMail($subject, $message));
             session()->forget('package_id');
 
             return redirect()->route('agent_order')->with('success', 'Payment successful. Your order  has been placed.');
@@ -340,12 +385,15 @@ class AgentController extends Controller
             //dd($response);
 
             $package_data = Package::where('id', session()->get('package_id'))->first();
+            $invoice_no = 'INV-'. Auth::guard('agent')->user()->id.'-'. time() ;
+            $admin_data = Admin::where('id', 1)->first();
             // all previous order will be inactive
             Order::where('agent_id', Auth::guard('agent')->user()->id)->update(['currently_active' => 0]);
             // Insert data into database
             $order = new Order;
             $order->agent_id = Auth::guard('agent')->user()->id;
             $order->package_id = session()->get('package_id');
+            $order->invoice_no = $invoice_no;
             $order->transaction_id = $response->id;
             $order->payment_method = 'Stripe';
             $order->paid_amount = $package_data->price;
@@ -354,6 +402,47 @@ class AgentController extends Controller
             $order->status = 'Completed';
             $order->currently_active = 1;
             $order->save();
+
+            //sending email to user
+            $link = route('agent_order');
+            $subject = 'Payment Successful';
+            $message = 'Dear '.Auth::guard('agent')->user()->name.'<br><br>';
+            $message .= 'Your payment has been successfully processed. Payment information is given below.<br><br>';
+            $message .= 'Invoice No: ' . $invoice_no . '<br>';
+            $message .= 'Payment method: Stripe<br>';
+            $message .= 'Transaction ID: '. $response->id.'<br>';
+            $message .= 'Package Name: '. $package_data->name .'<br>';
+            $message .= 'Paid Amount: $'. $package_data->price .'<br>';
+            $message .= 'Purchase Date: '. date('Y-m-d') .'<br>';
+            $message .= 'Expire Date: '. date('Y-m-d', strtotime('+' . $package_data->allowed_days . ' days')).'<br><br>';
+            $message .= 'Click on the following link to view your order: <br>';
+            $message .= '<a href="'. $link.'">'.$link .'</a><br><br>';
+            $message .= 'Thank you for your order!<br><br>';
+            $message .= 'Best regards,<br>';
+            $message .= env('APP_NAME');
+            \Mail::to(Auth::guard('agent')->user()->email)->send(new WebsiteMail($subject, $message));
+
+            // sending mail to admin
+
+            $link = route('admin_order');
+            $subject = 'New Order Received';
+            $message = 'Dear Admin, <br><br>';
+            $message .= 'A new order has been received. Payment information is given below:<br><br>';
+            $message .= 'Invoice No: '.$invoice_no.'<br>';
+            $message .= 'Agent Name: ' . Auth::guard('agent')->user()->name . '<br>';
+            $message .= 'Agent Email: ' . Auth::guard('agent')->user()->email . '<br>';
+            $message .= 'Payment Method: Stripe<br>';
+            $message .= 'Transaction ID: ' . $response->id . '<br>';
+            $message .= 'Package Name: ' . $package_data->name . '<br>';
+            $message .= 'Paid Amount: $' . $package_data->price . '<br>';
+            $message .= 'Purchase Date: ' . date('Y-m-d') . '<br>';
+            $message .= 'Expire Date: ' . date('Y-m-d', strtotime('+' . $package_data->allowed_days . ' days')) . '<br><br>';
+            $message .= 'Click on the following link to view your order: <br>';
+            $message .= '<a href="' . $link . '">' . $link . '</a><br><br>';
+            $message .= 'Regards, <br>';
+            $message .= env('APP_NAME');
+
+            \Mail::to($admin_data->email)->send(new WebsiteMail($subject, $message));
 
             session()->forget('package_id');
 

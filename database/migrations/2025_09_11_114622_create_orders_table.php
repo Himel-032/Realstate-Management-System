@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('agent_id');
             $table->integer('package_id');
+            $table->string('invoice_no');
             $table->string('transaction_id')->nullable();
             $table->string('payment_method');
             $table->string('paid_amount');
