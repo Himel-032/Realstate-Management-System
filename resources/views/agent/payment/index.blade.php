@@ -22,12 +22,13 @@
                     <div class="col-lg-9 col-md-12">
                         <h4>Current Plan</h4>
 
-                        @if($total_current_order > 0)
+                        @if($total_current_order > 0 && $current_order)
                         <div class="row box-items mb-4">
                             <div class="col-md-4">
                                 <div class="box1">
                                     <h4>${{ $current_order->package->price }}</h4>
                                     <p>{{ $current_order->package->name }}</p>
+                                    <p>({{ $days_left }} days left)</p>
                                 </div>
                             </div>
                         </div>
@@ -56,7 +57,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <form action="{{ route('agent_stripe') }}"" method="post">
+                                        <form action="{{ route('agent_stripe') }}" method="post">
                                             @csrf
                                         <select name="package_id" class="form-control select2">
                                             @foreach($packages as $package)

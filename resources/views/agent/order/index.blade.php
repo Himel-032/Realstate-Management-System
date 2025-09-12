@@ -25,38 +25,46 @@
                             <tbody>
                                 <tr>
                                     <th>SL</th>
-                                    <th>Payment Id</th>
-                                    <th>Plan Name</th>
+                                    <th>Invoice No</th>
+                                    <th>Package Name</th>
                                     <th>Price</th>
-                                    <th>Order Date</th>
+                                    <th>Payment Date</th>
                                     <th>Expire Date</th>
-                                    <th>Payment Method</th>
+                                    <th>Payment Method & Transaction Id</th>
                                     <th>Status</th>
+                                    <th>Print Invoice</th>
                                 </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>28937487</td>
-                                    <td>Basic</td>
-                                    <td>$19</td>
-                                    <td>2022-08-12</td>
-                                    <td>2022-08-27</td>
-                                    <td>PayPal</td>
-                                    <td>
-                                        <span class="badge bg-success">Active</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>92834744</td>
-                                    <td>Standard</td>
-                                    <td>$29</td>
-                                    <td>2022-12-28</td>
-                                    <td>2023-01-10</td>
-                                    <td>Stripe</td>
-                                    <td>
-                                        <span class="badge bg-danger">Pending</span>
-                                    </td>
-                                </tr>
+                                @foreach($orders as $order)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $order->invoice_no }}<br>
+                                            @if($order->currently_active == 1)
+                                                <span class="badge bg-success">Currently Active</span>
+                                            @endif
+                                        </td>
+                                        <td>{{ $order->package_name }}</td>
+                                        <td>${{ $order->paid_amount }}</td>
+                                        <td>{{ $order->purchase_date }}</td>
+                                        <td>{{ $order->expire_date }}</td>
+                                        <td style="word-wrap: break-word; word-break: break-all;">
+                                            <b>{{ $order->payment_method }}</b>
+                                            <br>
+                                            {{ $order->transaction_id }}
+                                        </td>
+                                        <td>
+                                            @if($order->status == 'Completed')
+                                                <span class="badge bg-success">{{ $order->status }}</span>
+                                            @else
+                                                <span class="badge bg-danger">{{ $order->status }}</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a href="" class="btn btn-primary btn-sm"><i class="fas fa-print"></i></a>
+                                        </td>
+
+                                    </tr>
+                                @endforeach
+
                             </tbody>
                         </table>
                     </div>

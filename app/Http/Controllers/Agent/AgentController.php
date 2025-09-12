@@ -215,7 +215,8 @@ class AgentController extends Controller
     }
     public function order()
     {
-        return view('agent.order.index');
+        $orders = Order::orderBy('id', 'desc')->where('agent_id', Auth::guard('agent')->user()->id)->get();
+        return view('agent.order.index', compact('orders'));
     }
 
     public function payment()
@@ -224,8 +225,20 @@ class AgentController extends Controller
         $packages = Package::orderBy('id', 'asc')->get();
 
         $current_order = Order::where('agent_id', Auth::guard('agent')->user()->id)->where('currently_active', 1)->first();
-
-        return view('agent.payment.index', compact('packages', 'total_current_order', 'current_order'));
+        // how many days left of current order
+        if ($current_order) {
+            $current_date = date('Y-m-d');
+            $expire_date = $current_order->expire_date;
+            $datetime1 = new \DateTime($current_date);
+            $datetime2 = new \DateTime($expire_date);
+            $interval = $datetime1->diff($datetime2);
+            $days_left = $interval->format('%a');
+            if ($datetime1 > $datetime2) {
+                $days_left = 0;
+            }
+            
+        }
+        return view('agent.payment.index', compact('packages', 'total_current_order', 'current_order', 'days_left'));
     }
     public function paypal(Request $request)
     {
