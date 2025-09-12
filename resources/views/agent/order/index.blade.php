@@ -59,7 +59,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="" class="btn btn-primary btn-sm"><i class="fas fa-print"></i></a>
+                                            <a href="{{ route('agent_invoice', $order->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-print"></i></a>
                                         </td>
 
                                     </tr>

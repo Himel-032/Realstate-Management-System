@@ -218,6 +218,14 @@ class AgentController extends Controller
         $orders = Order::orderBy('id', 'desc')->where('agent_id', Auth::guard('agent')->user()->id)->get();
         return view('agent.order.index', compact('orders'));
     }
+    public function invoice($id)
+    {
+        $order = Order::where('id', $id)->first();
+        if (!$order) {
+            return redirect()->back()->with('error', 'Order not found');
+        }
+        return view('agent.order.invoice', compact('order'));
+    }
 
     public function payment()
     {
