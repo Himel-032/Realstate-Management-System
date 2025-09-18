@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\AdminPackageController;
 use App\Http\Controllers\Admin\AdminLocationController;
 use App\Http\Controllers\Admin\AdminTypeController;
 use App\Http\Controllers\Admin\AdminAmenityController;
+use App\Http\Controllers\Admin\AdminCustomerController;
 
 
 // front end
@@ -107,7 +108,18 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::post('/amenity/update/{id}', [AdminAmenityController::class, 'update'])->name('admin_amenity_update');
     Route::get('/amenity/delete/{id}', [AdminAmenityController::class, 'delete'])->name('admin_amenity_delete');
 
+    Route::get('/customer/index', [AdminCustomerController::class, 'index'])->name('admin_customer_index');
+    Route::get('/customer/create', [AdminCustomerController::class, 'create'])->name('admin_customer_create');
+    Route::post('/customer/store', [AdminCustomerController::class, 'store'])->name('admin_customer_store');
+    Route::get('/customer/edit/{id}', [AdminCustomerController::class, 'edit'])->name('admin_customer_edit');
+    Route::post('/customer/update/{id}', [AdminCustomerController::class, 'update'])->name('admin_customer_update');
+    Route::get('/customer/delete/{id}', [AdminCustomerController::class, 'delete'])->name('admin_customer_delete');
+
+
     Route::get('/order', [AdminController::class, 'order'])->name('admin_order');
+
+
+    
 });
 
 Route::prefix('admin')->group(function () {

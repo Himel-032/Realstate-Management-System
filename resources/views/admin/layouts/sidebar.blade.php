@@ -29,6 +29,9 @@
                         <li class="{{ Request::is('admin/package/*') ? 'active' : '' }}"><a class="nav-link"
                                         href="{{ route('admin_package_index') }}"><i class="far fa-file"></i>
                                         <span>Package</span></a></li>
+                        <li class="{{ Request::is('admin/customer/*') ? 'active' : '' }}"><a class="nav-link"
+                                        href="{{ route('admin_customer_index') }}"><i class="far fa-file"></i>
+                                        <span>Customer</span></a></li>
 
                         <!-- <li class=""><a class="nav-link" href="setting.html"><i class="fas fa-file"></i>
                     <span>Setting</span></a></li>
