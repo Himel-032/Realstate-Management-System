@@ -47,13 +47,21 @@ class AdminCustomerController extends Controller
 
         $user->save();
 
+        if ($request->status == '0') {
+            $status = 'pending';
+        } else if ($request->status == '2') {
+            $status = 'suspended';
+        } else if ($request->status == '1') {
+            $status = 'active';
+        }
+
         // send email to customer
         $link = route('login');
         $subject = "Your account is created.";
         $message = 'Account information: <br>';
         $message .= 'Name: '.$request->name . '<br>';
         $message .= 'Email: '.$request->email . '<br>';
-        $message .= 'Status: '.$request->status . '<br>';
+        $message .= 'Status: '.$status . '<br>';
         $message .= 'Password: '.$request->password . '<br><br>';
         $message .= 'Please login to your account: <br><a href="' . $link . '">' . $link . '</a>';
 
