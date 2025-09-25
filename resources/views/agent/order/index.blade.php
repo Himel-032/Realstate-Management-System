@@ -42,7 +42,7 @@
                                                 <span class="badge bg-success">Currently Active</span>
                                             @endif
                                         </td>
-                                        <td>{{ $order->package_name }}</td>
+                                        <td>{{ $order->package->name }}</td>
                                         <td>${{ $order->paid_amount }}</td>
                                         <td>{{ $order->purchase_date }}</td>
                                         <td>{{ $order->expire_date }}</td>

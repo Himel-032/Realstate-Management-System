@@ -25,6 +25,14 @@ table.t1 tr td {
 .card.card-statistic-1 .card-header h4, .card.card-statistic-2 .card-header h4 {
     letter-spacing: normal;
 }
+.w-50 {width: 50%;}
+.w-100-p {width: 100% !important;}
+.w-30-p {width: 30% !important;}
+.w-40-p {width: 40% !important;}
+.w-60-p {width: 60% !important;}
+.w-70-p {width: 70% !important;}
+.w-100 {width: 100px !important;}
+
 .w_40 {width: 40px!important;}
 .w_50 {width: 50px!important;}
 .w_100 {width: 100px!important;}
@@ -467,3 +475,80 @@ hr.invoice-above-table {
     font-size: var(--font-size-common-1);
 }
 
+.table-border-0,
+.table-border-0 tr,
+.table-border-0 tr th,
+.table-border-0 tr td {
+    border: none!important;
+}
+.tar {text-align: right;}
+
+.invoice-container {
+    border: 1px solid #d5d5d5;
+    border-radius: 10px;
+    padding: 25px;
+}
+
+.invoice-top-right {
+    text-align: right;
+}
+.invoice-top-right h4 {
+    font-size: 26px;
+    text-transform: uppercase;
+}
+.invoice-top-right h5 {
+    font-size: 16px;
+    color: #757575;
+}
+
+.invoice-middle {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+.invoice-middle-left p,
+.invoice-middle-right p {
+    color: #757575;
+    font-size: 16px;
+}
+.invoice-middle-left h4,
+.invoice-middle-right h4 {
+    font-size: 20px;
+}
+.invoice-middle-right {
+    text-align: right!important;
+}
+
+.invoice-item-table,
+.invoice-item-table tr td,
+.invoice-item-table tr th {
+    border-color: #b9b9b9;
+}
+
+
+.invoice-bottom {
+    margin-top: 40px;
+}
+.invoice-bottom-payment h4 {
+    font-size: 18px;
+    font-weight: 700;
+}
+.invoice-bottom-total-box p {
+    margin-bottom: 0;
+    font-size: 16px;
+}
+.invoice-bottom-total-box span {
+    width: 70px;
+    display: inline-block;
+}
+
+#loader {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.75) url(loading.gif) no-repeat center center;
+    z-index: 10000;
+}

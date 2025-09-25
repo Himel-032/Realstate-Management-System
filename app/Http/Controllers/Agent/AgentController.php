@@ -234,6 +234,7 @@ class AgentController extends Controller
 
         $current_order = Order::where('agent_id', Auth::guard('agent')->user()->id)->where('currently_active', 1)->first();
         // how many days left of current order
+        $days_left = 0;
         if ($current_order) {
             $current_date = date('Y-m-d');
             $expire_date = $current_order->expire_date;
@@ -335,7 +336,7 @@ class AgentController extends Controller
 
             // sending mail to admin
 
-            $link = route('admin_order');
+            $link = route('admin_order_index');
             $subject = 'New Order Received';
             $message = 'Dear Admin, <br><br>';
             $message .= 'A new order has been received. Payment information is given below:<br><br>';
@@ -445,7 +446,7 @@ class AgentController extends Controller
 
             // sending mail to admin
 
-            $link = route('admin_order');
+            $link = route('admin_order_index');
             $subject = 'New Order Received';
             $message = 'Dear Admin, <br><br>';
             $message .= 'A new order has been received. Payment information is given below:<br><br>';

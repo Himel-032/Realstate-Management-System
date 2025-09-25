@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\AdminTypeController;
 use App\Http\Controllers\Admin\AdminAmenityController;
 use App\Http\Controllers\Admin\AdminCustomerController;
 use App\Http\Controllers\Admin\AdminAgentController;
+use App\Http\Controllers\Admin\AdminOrderController;
 
 
 // front end
@@ -125,7 +126,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
 
 
-    Route::get('/order', [AdminController::class, 'order'])->name('admin_order');
+    Route::get('/order/index', [AdminOrderController::class, 'index'])->name('admin_order_index');
+    Route::get('/order/invoice/{order_id}', [AdminOrderController::class, 'invoice'])->name('admin_order_invoice');
 
 
     
