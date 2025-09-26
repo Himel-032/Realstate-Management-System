@@ -547,7 +547,7 @@ class AgentController extends Controller
         $message = 'Dear Admin, <br><br>';
         $message .= 'Please review the property: <br><a href="' . $link . '">' . $link . '</a>';
 
-        \Mail::to($admin_email)->send(new WebsiteMail($subject, $message));
+       // \Mail::to($admin_email)->send(new WebsiteMail($subject, $message));
 
         return redirect()->route('agent_property_index')->with('success', 'Property created successfully.');
 
@@ -630,6 +630,20 @@ class AgentController extends Controller
         }
         if ($property->featured_photo != '') {
             unlink(public_path('uploads/' . $property->featured_photo));
+        }
+       
+        // delete all property photos
+        $photos = PropertyPhoto::where('property_id', $property->id)->get();
+        foreach ($photos as $photo) {
+            if ($photo->photo != '') {
+                unlink(public_path('uploads/' . $photo->photo));
+            }
+            $photo->delete();
+        }
+        // delete all property videos
+        $videos = PropertyVideo::where('property_id', $property->id)->get();
+        foreach ($videos as $video) {
+            $video->delete();
         }
         $property->delete();
         return redirect()->back()->with('success', 'Property deleted successfully');
