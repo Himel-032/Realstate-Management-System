@@ -6,7 +6,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h2>Agent Property Photo Gallery</h2>
+                    <h2>Agent Property Video Gallery</h2>
                 </div>
             </div>
         </div>
@@ -20,13 +20,13 @@
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-12">
-                    <h4>Add Photo</h4>
-                    <form action="{{ route('agent_property_photo_gallery_store', $property->id) }}" method="post" enctype="multipart/form-data">
+                    <h4>Add Video</h4>
+                    <form action="{{ route('agent_property_video_gallery_store', $property->id) }}" method="post">
                         @csrf
                         <div class="row">
                             <div class="col-md-12 mb-3">
                                 <div class="form-group">
-                                    <input type="file" name="photo" />
+                                    <input type="text" name="video" class="form-control" placeholder="YouTube Video ID" />
                                 </div>
                             </div>
                         </div>
@@ -38,28 +38,28 @@
                         </div>
                     </form>
 
-                    <h4 class="mt-4">Existing Photos</h4>
+                    <h4 class="mt-4">Existing Videos</h4>
                     <div class="photo-all">
                         <div class="row">
-                            @if($photos->isEmpty())
+                            @if($videos->isEmpty())
                                 <div class="col-md-12">
                                     <div class="alert alert-danger">
-                                        No Photos found.
+                                        No videos found.
                                     </div>
                                 </div>
                             @else
-                            @foreach($photos as $item)
+                            @foreach($videos as $item)
                                 <div class="col-md-6 col-lg-3">
                                     <div class="item item-delete">
-                                        <a href="{{ asset('uploads/' . $item->photo) }}" class="magnific">
-                                            <img src="{{ asset('uploads/' . $item->photo) }}" alt="" />
+                                        <a class="video-button" href="http://www.youtube.com/watch?v={{ $item->video }}">
+                                            <img src="http://img.youtube.com/vi/{{ $item->video }}/0.jpg" alt="" />
                                             <div class="icon">
-                                                <i class="fas fa-plus"></i>
+                                                <i class="far fa-play-circle"></i>
                                             </div>
                                             <div class="bg"></div>
                                         </a>
                                     </div>
-                                    <a href="{{ route('agent_property_photo_gallery_delete', $item->id) }}" class="badge bg-danger mb_20" onClick="return confirm('Are you sure?');">Delete</a>
+                                    <a href="{{ route('agent_property_video_gallery_delete', $item->id) }}" class="badge bg-danger mb_20" onClick="return confirm('Are you sure?');">Delete</a>
                                 </div>
                             @endforeach
                             @endif

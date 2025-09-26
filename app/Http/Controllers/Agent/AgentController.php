@@ -15,6 +15,7 @@ use App\Models\Location;
 use App\Models\Type;
 use App\Models\Amenity;
 use App\Models\PropertyPhoto;
+use App\Models\PropertyVideo;
 use App\Mail\WebsiteMail;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
@@ -676,5 +677,46 @@ class AgentController extends Controller
         }
         $photo->delete();
         return redirect()->back()->with('success', 'Photo deleted successfully');
+    }
+
+    public function property_video_gallery($id)
+    {
+        $property = Property::where('id', $id)->where('agent_id', Auth::guard('agent')->user()->id)->first();
+        if (!$property) {
+            return redirect()->back()->with('error', 'Property not found');
+        }
+        $videos = PropertyVideo::where('property_id', $property->id)->get();
+
+        return view('agent.property.video_gallery', compact('property', 'videos'));
+    }
+    public function property_video_gallery_store(Request $request, $id)
+    {
+        $property = Property::where('id', $id)->where('agent_id', Auth::guard('agent')->user()->id)->first();
+        if (!$property) {
+            return redirect()->back()->with('error', 'Property not found');
+        }
+
+        $request->validate([
+            'video' => ['required'],
+        ]);
+
+        $obj = new PropertyVideo();
+
+        
+        $obj->property_id = $property->id;
+        $obj->video = $request->video;
+        $obj->save();
+
+        return redirect()->back()->with('success', 'Video added successfully');
+    }
+    public function property_video_gallery_delete($id)
+    {
+        $video = PropertyVideo::where('id', $id)->first();
+        if (!$video) {
+            return redirect()->back()->with('error', 'Video not found');
+        }
+       
+        $video->delete();
+        return redirect()->back()->with('success', 'Video deleted successfully');
     }
 }

@@ -64,6 +64,10 @@ Route::middleware('agent')->prefix('agent')->group(function () {
     Route::get('/property/photo-gallery/{property_id}', [AgentController::class, 'property_photo_gallery'])->name('agent_property_photo_gallery');
     Route::post('/property/photo-gallery/{property_id}', [AgentController::class, 'property_photo_gallery_store'])->name('agent_property_photo_gallery_store');
     Route::get('/property/photo-gallery-delete/{property_id}', [AgentController::class, 'property_photo_gallery_delete'])->name('agent_property_photo_gallery_delete');
+    // Video gallery
+    Route::get('/property/video-gallery/{property_id}', [AgentController::class, 'property_video_gallery'])->name('agent_property_video_gallery');
+    Route::post('/property/video-gallery/{property_id}', [AgentController::class, 'property_video_gallery_store'])->name('agent_property_video_gallery_store');
+    Route::get('/property/video-gallery-delete/{property_id}', [AgentController::class, 'property_video_gallery_delete'])->name('agent_property_video_gallery_delete');
 });
 
 Route::prefix('agent')->group(function () {
