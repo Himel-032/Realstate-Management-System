@@ -1,23 +1,23 @@
 <ul class="list-group list-group-flush">
-    <li class="list-group-item {{ request()->is('agent/dashboard') ? 'active' : '' }}">
+    <li class="list-group-item {{ Request()->is('agent/dashboard') ? 'active' : '' }}">
         <a href="{{ route('agent_dashboard') }}">Dashboard</a>
     </li>
-    <li class="list-group-item {{ request()->is('agent/payment') ? 'active' : '' }}">
+    <li class="list-group-item {{ Request()->is('agent/payment') ? 'active' : '' }}">
         <a href="{{ route('agent_payment') }}">Make Payment</a>
     </li>
-    <li class="list-group-item {{ request()->is('agent/order') ? 'active' : '' }}">
+    <li class="list-group-item {{ Request()->is('agent/order') ? 'active' : '' }}">
         <a href="{{ route('agent_order') }}">Orders</a>
     </li>
-    <li class="list-group-item">
-        <a href="">Add Property</a>
+    <li class="list-group-item {{ Request()->is('agent/property/create') ? 'active' : '' }}">
+        <a href="{{ route('agent_property_create') }}">Add Property</a>
     </li>
-    <li class="list-group-item">
-        <a href="">All Properties</a>
+    <li class="list-group-item {{ Request()->is('agent/property/index')  || Request()->is('agent/property/edit/*') || Request()->is('agent/property/update/*') || Request()->is('agent/property/photo-gallery/*') ? 'active' : '' }}">
+        <a href="{{ route('agent_property_index') }}">All Properties</a>
     </li>
     <li class="list-group-item">
         <a href="">Messages</a>
     </li>
-    <li class="list-group-item {{ request()->is('agent/profile') ? 'active' : '' }}">
+    <li class="list-group-item {{ Request()->is('agent/profile') ? 'active' : '' }}">
         <a href="{{ route('agent_profile') }}">Edit Profile</a>
     </li>
     <li class="list-group-item">

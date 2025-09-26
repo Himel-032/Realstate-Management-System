@@ -10,6 +10,11 @@ use App\Models\Agent;
 use App\Models\Package;
 use App\Models\Order;
 use App\Models\Admin;
+use App\Models\Property;
+use App\Models\Location;
+use App\Models\Type;
+use App\Models\Amenity;
+use App\Models\PropertyPhoto;
 use App\Mail\WebsiteMail;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
@@ -472,5 +477,204 @@ class AgentController extends Controller
         } else {
             return redirect()->route('agent_payment')->with('error', 'Payment failed. Please try again.');
         }
+    }
+    public function property_all()
+    {
+        $properties = Property::where('agent_id', Auth::guard('agent')->user()->id)->get();
+        return view('agent.property.index', compact('properties'));
+    }
+    public function property_create()
+    {
+        $locations = Location::orderBy('id', 'asc')->get();
+        $types = Type::orderBy('id', 'asc')->get();
+        $amenities = Amenity::orderBy('id', 'asc')->get();
+        return view('agent.property.create', compact('locations', 'types', 'amenities'));
+    }
+    public function property_store(Request $request)
+    {
+        $request->validate([
+            'name' => ['required'],
+            'slug' => ['required', 'unique:properties,slug', 'regex:/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/'],
+            'price' => ['required',],
+           'size' => ['required', 'numeric'],
+            'bedroom' => ['required', 'numeric'],
+            'bathroom' => ['required', 'numeric'],
+            'address' => ['required'],
+            'featured_photo' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+
+
+
+        ]);
+
+
+
+
+        $final_name = 'property_f_photo' . time() . '.' . $request->featured_photo->extension();
+
+        $request->featured_photo->move(public_path('uploads'), $final_name);
+
+        $property = new Property();
+        $property->agent_id = Auth::guard('agent')->user()->id;
+        $property->location_id = $request->location_id;
+        $property->type_id = $request->type_id;
+        $property->amenities = implode(',', $request->amenity);
+        $property->name = $request->name;
+        $property->slug = $request->slug;
+        $property->description = $request->description;
+        $property->price = $request->price;
+        $property->featured_photo = $final_name;
+        $property->purpose = $request->purpose;   
+        $property->bedroom = $request->bedroom;
+        $property->bathroom = $request->bathroom;
+        $property->size = $request->size;
+        $property->floor = $request->floor;
+        $property->garage = $request->garage;
+        $property->balcony = $request->balcony;
+        $property->address = $request->address;
+        $property->built_year = $request->built_year;
+        $property->map = $request->map;
+        $property->is_featured = $request->is_featured;
+        $property->status = 'Pending';
+
+        $property->save();
+
+        // send email to admin
+        $admin_data = Admin::where('id', 1)->first();
+        $admin_email = $admin_data->email;
+        $link = route('admin_property_index');
+        $subject = "A new property has been added";
+        $message = 'Dear Admin, <br><br>';
+        $message .= 'Please review the property: <br><a href="' . $link . '">' . $link . '</a>';
+
+        \Mail::to($admin_email)->send(new WebsiteMail($subject, $message));
+
+        return redirect()->route('agent_property_index')->with('success', 'Property created successfully.');
+
+
+    }
+
+    public function property_edit($id)
+    {
+        $property = Property::where('id', $id)->where('agent_id', Auth::guard('agent')->user()->id)->first();
+        if (!$property) {
+            return redirect()->back()->with('error', 'Property not found');
+        }
+        $existing_amenities = explode(',', $property->amenities);
+        $locations = Location::orderBy('id', 'asc')->get();
+        $types = Type::orderBy('id', 'asc')->get();
+        $amenities = Amenity::orderBy('id', 'asc')->get();
+        return view('agent.property.edit', compact('property', 'locations', 'types', 'amenities', 'existing_amenities'));
+    }
+
+    public function property_update(Request $request, $id)
+    {
+        $property = Property::where('id', $id)->where('agent_id', Auth::guard('agent')->user()->id)->first();
+        if (!$property) {
+            return redirect()->back()->with('error', 'Property not found');
+        }
+
+        $request->validate([
+            'name' => ['required'],
+            'slug' => ['required', 'unique:properties,slug,' . $property->id, 'regex:/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/'],
+            'price' => ['required',],
+            'size' => ['required', 'numeric'],
+            'bedroom' => ['required', 'numeric'],
+            'bathroom' => ['required', 'numeric'],
+            'address' => ['required'],
+           ]);
+           if($request->featured_photo){
+            $request->validate([
+                'featured_photo' => ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            ]);
+            $final_name = 'property_f_photo' . time() . '.' . $request->featured_photo->extension();
+            if ($property->featured_photo != '') {
+                unlink(public_path('uploads/' . $property->featured_photo));
+           }
+            $request->featured_photo->move(public_path('uploads'), $final_name);
+            $property->featured_photo = $final_name;
+        
+        }
+
+        
+        
+        $property->location_id = $request->location_id;
+        $property->type_id = $request->type_id;
+        $property->amenities = implode(',', $request->amenity);
+        $property->name = $request->name;
+        $property->slug = $request->slug;
+        $property->description = $request->description;
+        $property->price = $request->price;
+        $property->purpose = $request->purpose;
+        $property->bedroom = $request->bedroom;
+        $property->bathroom = $request->bathroom;
+        $property->size = $request->size;
+        $property->floor = $request->floor;
+        $property->garage = $request->garage;
+        $property->balcony = $request->balcony;
+        $property->address = $request->address;
+        $property->built_year = $request->built_year;
+        $property->map = $request->map;
+        $property->is_featured = $request->is_featured;
+
+        $property->update();
+
+        return redirect()->route('agent_property_index')->with('success', 'Property updated successfully.');
+    }
+
+    public function property_delete($id)
+    {
+        $property = Property::where('id', $id)->where('agent_id', Auth::guard('agent')->user()->id)->first();
+        if (!$property) {
+            return redirect()->back()->with('error', 'Property not found');
+        }
+        if ($property->featured_photo != '') {
+            unlink(public_path('uploads/' . $property->featured_photo));
+        }
+        $property->delete();
+        return redirect()->back()->with('success', 'Property deleted successfully');
+    }
+    public function property_photo_gallery($id)
+    {
+        $property = Property::where('id', $id)->where('agent_id', Auth::guard('agent')->user()->id)->first();
+        if (!$property) {
+            return redirect()->back()->with('error', 'Property not found');
+        }
+        $photos = PropertyPhoto::where('property_id', $property->id)->get();
+
+        return view('agent.property.photo_gallery', compact('property', 'photos'));
+    }
+    public function property_photo_gallery_store(Request $request, $id)
+    {
+        $property = Property::where('id', $id)->where('agent_id', Auth::guard('agent')->user()->id)->first();
+        if (!$property) {
+            return redirect()->back()->with('error', 'Property not found');
+        }
+
+        $request->validate([
+            'photo' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+        ]);
+
+        $obj = new PropertyPhoto();
+
+        $final_name = 'property_photo_' . time() . '.' . $request->photo->extension();
+        $request->photo->move(public_path('uploads'), $final_name);
+
+        $obj->property_id = $property->id;
+        $obj->photo = $final_name;
+        $obj->save();
+
+        return redirect()->back()->with('success', 'Photo added successfully');
+    }
+    public function property_photo_gallery_delete($id)
+    {
+        $photo = PropertyPhoto::where('id', $id)->first();
+        if (!$photo) {
+            return redirect()->back()->with('error', 'Photo not found');
+        }
+        if ($photo->photo != '') {
+            unlink(public_path('uploads/' . $photo->photo));
+        }
+        $photo->delete();
+        return redirect()->back()->with('success', 'Photo deleted successfully');
     }
 }

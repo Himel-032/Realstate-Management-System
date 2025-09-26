@@ -15,4 +15,8 @@ class Agent extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
+    public function properties()
+    {
+        return $this->hasMany(Property::class);
+    }
 }

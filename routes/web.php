@@ -53,6 +53,17 @@ Route::middleware('agent')->prefix('agent')->group(function () {
     Route::post('/stripe', [AgentController::class, 'stripe'])->name('agent_stripe');
     Route::get('/stripe-success', [AgentController::class, 'stripe_success'])->name('agent_stripe_success');
     Route::get('/stripe-cancel', [AgentController::class, 'stripe_cancel'])->name('agent_stripe_cancel');
+
+    Route::get('/property/index', [AgentController::class, 'property_all'])->name('agent_property_index');
+    Route::get('/property/create', [AgentController::class, 'property_create'])->name('agent_property_create');
+    Route::post('/property/store', [AgentController::class, 'property_store'])->name('agent_property_store');
+    Route::get('/property/edit/{id}', [AgentController::class, 'property_edit'])->name('agent_property_edit');
+    Route::post('/property/update/{id}', [AgentController::class, 'property_update'])->name('agent_property_update');
+    Route::get('/property/delete/{id}', [AgentController::class, 'property_delete'])->name('agent_property_delete');
+   // Photo gallery
+    Route::get('/property/photo-gallery/{property_id}', [AgentController::class, 'property_photo_gallery'])->name('agent_property_photo_gallery');
+    Route::post('/property/photo-gallery/{property_id}', [AgentController::class, 'property_photo_gallery_store'])->name('agent_property_photo_gallery_store');
+    Route::get('/property/photo-gallery-delete/{property_id}', [AgentController::class, 'property_photo_gallery_delete'])->name('agent_property_photo_gallery_delete');
 });
 
 Route::prefix('agent')->group(function () {
@@ -129,7 +140,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/order/index', [AdminOrderController::class, 'index'])->name('admin_order_index');
     Route::get('/order/invoice/{order_id}', [AdminOrderController::class, 'invoice'])->name('admin_order_invoice');
 
-
+    Route::get('/property/index', [AdminController::class, 'property_all'])->name('admin_property_index');
     
 });
 
