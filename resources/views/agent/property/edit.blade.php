@@ -117,9 +117,9 @@
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="" class="form-label">Is Featured?</label>
-                                <select name="is_featured" id="" class="form-select">
-                                    <option value="1" {{ $property->is_featured == 'Yes' ? 'selected' : '' }}>Yes</option>
-                                    <option value="0" {{ $property->is_featured == 'No' ? 'selected' : '' }}>No</option>
+                                <select name="is_featured" id="" class="form-control select2">
+                                    <option value="Yes" {{ $property->is_featured == 'Yes' ? 'selected' : '' }}>Yes</option>
+                                    <option value="No" {{ $property->is_featured == 'No' ? 'selected' : '' }}>No</option>
                                 </select>
                             </div>
                             <div class="col-md-12 mb-3">

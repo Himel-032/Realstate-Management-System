@@ -55,7 +55,7 @@
                                                         <div><a href="">Change</a></div>
                                                     </td>
                                                     <td>
-                                                        <a href="" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
+                                                        <a href="{{ route('admin_property_detail', $property->id) }}" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
                                                     </td>
                                                     
                                                 </tr>

@@ -31,6 +31,7 @@
                                     <th>Location</th>
                                     <th>Type</th>
                                     <th>purpose</th>
+                                    <th>Is Featured?</th>
                                     <th>Status</th>
 
                                     <th class="w-150">Options</th>
@@ -49,6 +50,13 @@
                                         <td>{{ $property->location->name }}</td>
                                         <td>{{ $property->type->name }}</td>
                                         <td>{{ $property->purpose }}</td>
+                                        <td>
+                                            @if($property->is_featured == 'Yes')
+                                                <span class="badge bg-success">Yes</span>
+                                            @else
+                                                <span class="badge bg-danger">No</span>
+                                            @endif
+                                        </td>
                                         <td>
                                             @if($property->status == 'Active')
                                                 <span class="badge bg-success">Active</span>

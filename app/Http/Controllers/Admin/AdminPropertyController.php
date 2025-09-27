@@ -13,6 +13,11 @@ class AdminPropertyController extends Controller
         $properties = Property::orderBy('id', 'desc')->get();
         return view('admin.property.index', compact('properties'));
     }
+    public function detail($id)
+    {
+        $property = Property::where('id', $id)->first();
+        return view('admin.property.detail', compact('property'));
+    }
 
    
 }
