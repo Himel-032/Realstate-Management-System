@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminPropertyController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Front\FrontController;
@@ -144,8 +145,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/order/index', [AdminOrderController::class, 'index'])->name('admin_order_index');
     Route::get('/order/invoice/{order_id}', [AdminOrderController::class, 'invoice'])->name('admin_order_invoice');
 
-    Route::get('/property/index', [AdminController::class, 'property_all'])->name('admin_property_index');
-    
+    Route::get('/property/index', [AdminPropertyController::class, 'index'])->name('admin_property_index');
+    Route::get('/property/detail/{id}', [AdminPropertyController::class, 'detail'])->name('admin_property_detail');
+
 });
 
 Route::prefix('admin')->group(function () {

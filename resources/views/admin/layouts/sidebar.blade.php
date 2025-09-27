@@ -12,7 +12,7 @@
                         <li class="{{ Request::is('admin/dashboard') ? 'active' : '' }}"><a class="nav-link"
                                         href="{{ route('admin_dashboard') }}"><i class="fas fa-home"></i>
                                         <span>Dashboard</span></a></li>
-                        <li class="nav-item dropdown {{ Request::is('admin/location/*') || Request::is('admin/type/*') || Request::is('admin/amenity/*') ? 'active' : '' }}">
+                        <li class="nav-item dropdown {{ Request::is('admin/location/*') || Request::is('admin/type/*') || Request::is('admin/amenity/*') || Request::is('admin/property/*') ? 'active' : '' }}">
                                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-folder"></i><span>Property
                                                 Section</span></a>
                                 <ul class="dropdown-menu">
@@ -24,6 +24,9 @@
                                         <li class="{{ Request::is('admin/amenity/*') ? 'active' : '' }}"><a class="nav-link"
                                                         href="{{ route('admin_amenity_index') }}"><i class="fas fa-angle-right"></i>
                                                         Amenity</a></li>
+                                        <li class="{{ Request::is('admin/property/*') ? 'active' : '' }}"><a class="nav-link"
+                                                        href="{{ route('admin_property_index') }}"><i class="fas fa-angle-right"></i>
+                                                        Property</a></li>
                                 </ul>
                         </li>
                         <li class="{{ Request::is('admin/package/*') ? 'active' : '' }}"><a class="nav-link"
