@@ -55,11 +55,13 @@
                                                         <th>Amenities</th>
                                                         <td>
                                                             @php
-                                                                $amenities = explode(',', $property->amenities);
+                                                                $amenity_array = explode(',', $property->amenities);
+                                                                $amenities = \App\Models\Amenity::whereIn('id', $amenity_array)->get();
+                                                     
+                                                            foreach($amenities as $amenity){
+                                                                echo '<span class="badge bg-primary me-1">'. $amenity->name .'</span>';
+                                                                }
                                                             @endphp
-                                                            @foreach($amenities as $amenity)
-                                                                <span class="badge bg-info text-dark">{{ $amenity }}</span>
-                                                            @endforeach
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -105,6 +107,23 @@
                                                     <tr>
                                                         <th>Is Featured</th>
                                                         <td>{{ $property->is_featured }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Photo Gallery</th>
+                                                        <td>
+                                                            @foreach($property->photos as $photo)
+                                                                <img src="{{ asset('uploads/' . $photo->photo) }}" alt="" class="w_200">
+                                                            
+                                                            @endforeach
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Video Gallery</th>
+                                                        <td>
+                                                            @foreach($property->videos as $video)
+                                                                        <iframe width="200" height="175" src="https://www.youtube.com/embed/{{ $video->video }}" frameborder="0" allowfullscreen></iframe>
+                                                             @endforeach
+                                                        </td>
                                                     </tr>
 
 

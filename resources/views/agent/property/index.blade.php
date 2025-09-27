@@ -35,7 +35,7 @@
                                     <th>Status</th>
 
                                     <th class="w-150">Options</th>
-                                    <th class="w-70">Action</th>
+                                    <th class="w-100">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
