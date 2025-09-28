@@ -35,9 +35,7 @@ class FrontController extends Controller
         if(!$property){
             return redirect()->route('front.home')->with('error','Property not found');
         }
-        $photos = PropertyPhoto::where('property_id',$property->id)->get();
-        $videos = PropertyVideo::where('property_id',$property->id)->get();
-        $agent = Agent::where('id',$property->agent_id);
-        return view('front.layouts.property_detail', compact('property','photos','videos','agent'));
+        
+        return view('front.layouts.property_detail', compact('property'));
     }
 }
