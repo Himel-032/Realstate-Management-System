@@ -22,6 +22,7 @@ Route::get('/contact', [FrontController::class, 'contact'])->name('contact');
 Route::get('/select-user', [FrontController::class,'select_user'])->name('select_user');
 Route::get('/pricing', [FrontController::class, 'pricing'])->name('pricing');
 Route::get('/property/{slug}', [FrontController::class, 'property_detail'])->name('property_detail');
+Route::post('/property/message/{id}', [FrontController::class, 'property_send_message'])->name('property_send_message');
 
 //User 
 Route::middleware('auth')->group(function () {

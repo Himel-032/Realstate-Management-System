@@ -8,6 +8,7 @@ use App\Models\Property;
 use App\Models\PropertyPhoto;
 use App\Models\PropertyVideo;
 use App\Models\Agent;
+use App\Mail\Websitemail;
 use Illuminate\Http\Request;
 
 class FrontController extends Controller
@@ -37,5 +38,21 @@ class FrontController extends Controller
         }
         
         return view('front.layouts.property_detail', compact('property'));
+    }
+    public function property_send_message(Request $request, $id){
+        $property = Property::find($id);
+        if(!$property){
+            return redirect()->route('home')->with('error','Property not found');
+        }
+        //send email to agent
+        $subject = "Property Enquiry";
+        $message = "You have received an enquiry for the property: ".$property->name. '<br><br>';
+        $message .= 'Visitor Name: '.$request->name.'<br>';
+        $message .= 'Visitor Email: '.$request->email.'<br>';
+        $message .= 'Visitor Phone: '.$request->phone.'<br>';
+        $message .= 'Visitor Message: '.nl2br($request->message);
+        $agent_email = $property->agent->email;
+        \Mail::to($agent_email)->send(new Websitemail($subject, $message));
+        return redirect()->back()->with('success','Your message has been sent successfully. Agent will contact you soon.');
     }
 }
