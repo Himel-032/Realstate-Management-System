@@ -66,7 +66,7 @@
                                 </div>
                                 <div class="agent-section">
                                     <img class="agent-photo" src="{{ asset('uploads/'.$property->agent->photo) }}" alt="">
-                                    <a href="">{{ $property->agent->name }} ({{ $property->agent->company }})</a>
+                                    <a href="{{ route('agent', $property->agent->id) }}">{{ $property->agent->name }} ({{ $property->agent->company }})</a>
                                 </div>
                             </div>
                         </div>

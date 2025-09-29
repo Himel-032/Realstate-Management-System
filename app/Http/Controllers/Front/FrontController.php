@@ -16,13 +16,15 @@ class FrontController extends Controller
 {
     public function index()
     {
-        $properties = Property::where('status','Active')->orderBy('id','asc')->take(6)->get();
+        $properties = Property::where('status','Active')->orderBy('id','asc')->take(3)->get();
         // get the total location wise property
         $locations = Location::withCount(['properties' => function ($query) {
             $query->where('status', 'Active');
-        }])->orderBy('name', 'asc')->orderBy('properties_count','desc')->get();
-      //  $locations = Location::orderBy('name','asc')->get();
-        return view('front.home', compact('properties', 'locations'));
+        }])->orderBy('name', 'asc')->orderBy('properties_count','desc')->take(4)->get();
+
+        $agents = Agent::where('status',1)->orderBy('id','asc')->take(4)->get();
+
+        return view('front.home', compact('properties', 'locations', 'agents'));
     }
     public function contact()
     {
@@ -67,7 +69,7 @@ class FrontController extends Controller
         // get total property in a particular location
         $locations = Location::withCount(['properties' => function ($query) {
             $query->where('status', 'Active');
-        }])->orderBy('properties_count','desc')->get();
+        }])->orderBy('properties_count','desc')->paginate(20);
         return view('front.locations', compact('locations'));
 
     }
@@ -81,4 +83,20 @@ class FrontController extends Controller
         $properties = Property::where('location_id',$location->id)->where('status','Active')->orderBy('id','asc')->paginate(6);
         return view('front.location', compact('location','properties'));
     }
+
+    public function agents()
+    {
+        $agents = Agent::where('status',1)->orderBy('id','asc')->paginate(20);
+        return view('front.agents', compact('agents'));
+    }
+    public function agent($id)
+    {
+        $agent = Agent::where('id', $id)->first();
+        if(!$agent){
+            return redirect()->route('home')->with('error','Agenttt not found');
+        }
+        $properties = Property::where('agent_id',$agent->id)->where('status','Active')->orderBy('id','asc')->paginate(6);
+        return view('front.agent', compact('agent','properties'));
+    }
+
 }

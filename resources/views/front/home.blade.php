@@ -132,7 +132,7 @@
                                     @else
                                     <img class="agent-photo" src="{{ asset('uploads/default.png') }}" alt="">
                                     @endif
-                                    <a href="">{{ $item->agent->name }} ({{ $item->agent->company }})</a>
+                                    <a href="{{ route('agent', $item->agent->id) }}">{{ $item->agent->name }} ({{ $item->agent->company }})</a>
                                 </div>
                             </div>
                         </div>
@@ -219,102 +219,21 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-3 col-md-3">
-                    <div class="item">
-                        <div class="photo">
-                            <a href=""><img src="{{ asset('uploads/agent1.jpg') }}" alt=""></a>
-                        </div>
-                        <div class="text">
-                            <h2>
-                                <a href="agent.html">Michael Wyatt</a>
-                            </h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3">
-                    <div class="item">
-                        <div class="photo">
-                            <a href=""><img src="{{ asset('uploads/agent2.jpg') }}" alt=""></a>
-                        </div>
-                        <div class="text">
-                            <h2>
-                                <a href="agent.html">Jason Schwartz</a>
-                            </h2>
+                @foreach($agents as $agent)
+                    <div class="col-lg-3 col-md-3">
+                        <div class="item">
+                            <div class="photo">
+                                <a href="{{ route('agent', $agent->id) }}"><img src="{{ asset('uploads/' . $agent->photo) }}" alt=""></a>
+                            </div>
+                            <div class="text">
+                                <h2>
+                                    <a href="{{ route('agent', $agent->id) }}">{{ $agent->name }}</a>
+                                </h2>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-3">
-                    <div class="item">
-                        <div class="photo">
-                            <a href=""><img src="{{ asset('uploads/agent3.jpg') }}" alt=""></a>
-                        </div>
-                        <div class="text">
-                            <h2>
-                                <a href="agent.html">Joshua Lash</a>
-                            </h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3">
-                    <div class="item">
-                        <div class="photo">
-                            <a href=""><img src="{{ asset('uploads/agent4.jpg') }}" alt=""></a>
-                        </div>
-                        <div class="text">
-                            <h2>
-                                <a href="agent.html">Eric Williams</a>
-                            </h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3">
-                    <div class="item">
-                        <div class="photo">
-                            <a href=""><img src="{{ asset('uploads/agent5.jpg') }}" alt=""></a>
-                        </div>
-                        <div class="text">
-                            <h2>
-                                <a href="agent.html">Jay Smith</a>
-                            </h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3">
-                    <div class="item">
-                        <div class="photo">
-                            <a href=""><img src="{{ asset('uploads/agent6.jpg') }}" alt=""></a>
-                        </div>
-                        <div class="text">
-                            <h2>
-                                <a href="agent.html">Joseph Commons</a>
-                            </h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3">
-                    <div class="item">
-                        <div class="photo">
-                            <a href=""><img src="{{ asset('uploads/agent7.jpg') }}" alt=""></a>
-                        </div>
-                        <div class="text">
-                            <h2>
-                                <a href="agent.html">Richard Renner</a>
-                            </h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3">
-                    <div class="item">
-                        <div class="photo">
-                            <a href=""><img src="{{ asset('uploads/agent8.jpg') }}" alt=""></a>
-                        </div>
-                        <div class="text">
-                            <h2>
-                                <a href="agent.html">Ryan Dingle</a>
-                            </h2>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
+
             </div>
         </div>
     </div>
