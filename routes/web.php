@@ -23,6 +23,8 @@ Route::get('/select-user', [FrontController::class,'select_user'])->name('select
 Route::get('/pricing', [FrontController::class, 'pricing'])->name('pricing');
 Route::get('/property/{slug}', [FrontController::class, 'property_detail'])->name('property_detail');
 Route::post('/property/message/{id}', [FrontController::class, 'property_send_message'])->name('property_send_message');
+Route::get('/locations', [FrontController::class, 'locations'])->name('locations');
+Route::get('/location/{slug}', [FrontController::class, 'location'])->name('location');
 
 //User 
 Route::middleware('auth')->group(function () {

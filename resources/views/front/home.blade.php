@@ -87,7 +87,7 @@
                 <div class="col-lg-4 col-md-6 col-sm-12">
                     <div class="item">
                         <div class="photo">
-                            <img class="main" src="{{ asset('uploads/'. $item->featured_photo) }}" alt="">
+                            <img class="main" src="{{ asset('uploads/' . $item->featured_photo) }}" alt="">
                             <div class="top">
                                 @if($item->purpose == 'Sale')
                                 <div class="status-sale">
@@ -128,7 +128,7 @@
                                 </div>
                                 <div class="agent-section">
                                     @if($item->agent->photo != '')
-                                    <img class="agent-photo" src="{{ asset('uploads/'. $item->agent->photo) }}" alt="">
+                                    <img class="agent-photo" src="{{ asset('uploads/' . $item->agent->photo) }}" alt="">
                                     @else
                                     <img class="agent-photo" src="{{ asset('uploads/default.png') }}" alt="">
                                     @endif
@@ -139,7 +139,7 @@
                     </div>
                 </div>
                 @endforeach
-                
+
 
             </div>
         </div>
@@ -334,94 +334,20 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="item">
-                        <div class="photo">
-                            <a href="location.html"><img src="{{ asset('uploads/location1.jpg') }}" alt=""></a>
-                        </div>
-                        <div class="text">
-                            <h2><a href="location.html">Boston</a></h2>
-                            <h4>(10 Properties)</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="item">
-                        <div class="photo">
-                            <a href="location.html"><img src="{{ asset('uploads/location2.jpg') }}" alt=""></a>
-                        </div>
-                        <div class="text">
-                            <h2><a href="location.html">California</a></h2>
-                            <h4>(5 Properties)</h4>
+                @foreach($locations as $item)
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="item">
+                            <div class="photo">
+                                <a href="{{ route('location', $item->slug) }}"><img src="{{ asset('uploads/' . $item->photo) }}" alt=""></a>
+                            </div>
+                            <div class="text">
+                                <h2><a href="{{ route('location', $item->slug) }}">{{ $item->name }}</a></h2>
+                                <h4>({{ $item->properties_count }} Properties)</h4>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="item">
-                        <div class="photo">
-                            <a href="location.html"><img src="{{ asset('uploads/location3.jpg') }}" alt=""></a>
-                        </div>
-                        <div class="text">
-                            <h2><a href="location.html">Chicago</a></h2>
-                            <h4>(2 Properties)</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="item">
-                        <div class="photo">
-                            <a href="location.html"><img src="{{ asset('uploads/location4.jpg') }}" alt=""></a>
-                        </div>
-                        <div class="text">
-                            <h2><a href="location.html">Dallas</a></h2>
-                            <h4>(0 Properties)</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="item">
-                        <div class="photo">
-                            <a href="location.html"><img src="{{ asset('uploads/location5.jpg') }}" alt=""></a>
-                        </div>
-                        <div class="text">
-                            <h2><a href="location.html">Denver</a></h2>
-                            <h4>(0 Properties)</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="item">
-                        <div class="photo">
-                            <a href="location.html"><img src="{{ asset('uploads/location6.jpg') }}" alt=""></a>
-                        </div>
-                        <div class="text">
-                            <h2><a href="location.html">New York</a></h2>
-                            <h4>(0 Properties)</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="item">
-                        <div class="photo">
-                            <a href="location.html"><img src="{{ asset('uploads/location7.jpg') }}" alt=""></a>
-                        </div>
-                        <div class="text">
-                            <h2><a href="location.html">San Diago</a></h2>
-                            <h4>(0 Properties)</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="item">
-                        <div class="photo">
-                            <a href="location.html"><img src="{{ asset('uploads/location8.jpg') }}" alt=""></a>
-                        </div>
-                        <div class="text">
-                            <h2><a href="location.html">Washington</a></h2>
-                            <h4>(0 Properties)</h4>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
+
             </div>
         </div>
     </div>

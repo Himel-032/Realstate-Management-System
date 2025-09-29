@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Models\Package;
 use App\Models\Property;
+use App\Models\Location;
 use App\Models\PropertyPhoto;
 use App\Models\PropertyVideo;
 use App\Models\Agent;
@@ -16,7 +17,12 @@ class FrontController extends Controller
     public function index()
     {
         $properties = Property::where('status','Active')->orderBy('id','asc')->take(6)->get();
-        return view('front.home', compact('properties'));
+        // get the total location wise property
+        $locations = Location::withCount(['properties' => function ($query) {
+            $query->where('status', 'Active');
+        }])->orderBy('name', 'asc')->orderBy('properties_count','desc')->get();
+      //  $locations = Location::orderBy('name','asc')->get();
+        return view('front.home', compact('properties', 'locations'));
     }
     public function contact()
     {
@@ -54,5 +60,15 @@ class FrontController extends Controller
         $agent_email = $property->agent->email;
         \Mail::to($agent_email)->send(new Websitemail($subject, $message));
         return redirect()->back()->with('success','Your message has been sent successfully. Agent will contact you soon.');
+    }
+
+    public function locations()
+    {
+        // get total property in a particular location
+        $locations = Location::withCount(['properties' => function ($query) {
+            $query->where('status', 'Active');
+        }])->orderBy('properties_count','desc')->get();
+        return view('front.locations', compact('locations'));
+
     }
 }
