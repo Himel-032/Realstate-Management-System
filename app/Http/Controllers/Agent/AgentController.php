@@ -501,6 +501,15 @@ class AgentController extends Controller
             return redirect()->route('agent_payment')->with('error', 'Your current package does not allow you to add more properties. Please upgrade your package.');
         }
 
+        // if package expired then redirect to payment page
+        $current_date = date('Y-m-d');
+        if($current_date > $order->expire_date){
+            return redirect()->route('agent_payment')->with('error', 'Your package has expired. Please renew your package to add property.');
+            
+        }
+        
+        
+
         $locations = Location::orderBy('id', 'asc')->get();
         $types = Type::orderBy('id', 'asc')->get();
         $amenities = Amenity::orderBy('id', 'asc')->get();
