@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Amenity;
+use App\Models\Property;
 
 class AdminAmenityController extends Controller
 {
@@ -57,6 +58,15 @@ class AdminAmenityController extends Controller
     }
     public function delete($id)
     {
+        // in properties table amenities are stored like 1,2,3 . each of these is an amenity id
+        // So if any property has this amenity id in its amenities field , then you cannot delete this amenity
+        $properties = Property::get();
+        foreach ($properties as $item) {
+            $temp_arr = explode(',', $item->amenities);
+            if (in_array($id, $temp_arr)) {
+                return redirect()->route('admin_amenity_index')->with('error', 'You cannot delete this amenity. It is associated with some properties.');
+            }
+        }
         $amenity = Amenity::where('id', $id)->first();
         $amenity->delete();
 

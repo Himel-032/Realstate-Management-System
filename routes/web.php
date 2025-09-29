@@ -26,7 +26,7 @@ Route::post('/property/message/{id}', [FrontController::class, 'property_send_me
 Route::get('/locations', [FrontController::class, 'locations'])->name('locations');
 Route::get('/location/{slug}', [FrontController::class, 'location'])->name('location');
 Route::get('/agents', [FrontController::class, 'agents'])->name('agents');
-Route::get('/agent/{id}',[FrontController::class,'agent'])->whereNumber('id')->name('agent');
+Route::get('/agent/detail/{id}',[FrontController::class,'agent'])->whereNumber('id')->name('agent');
 
 //User 
 Route::middleware('auth')->group(function () {

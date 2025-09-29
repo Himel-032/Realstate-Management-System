@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->string('photo');
-            $table->integer('total_properties')->default(0);
             $table->timestamps();
         });
     }

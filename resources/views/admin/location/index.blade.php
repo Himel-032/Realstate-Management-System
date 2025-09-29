@@ -26,7 +26,6 @@
                                                 <th>Photo</th>
                                                 <th>Name</th>
                                                 <th>Slug</th>
-                                                <th>Total Properties</th>
                                                 <th class="w_100">Action</th>
                                             </tr>
                                         </thead>
@@ -39,7 +38,6 @@
                                                     </td>
                                                     <td>{{ $location->name }}</td>
                                                     <td>{{ $location->slug }}</td>
-                                                    <td>{{ $location->total_properties }}</td>
                                                     <td>
                                                         <a href="{{ route('admin_location_edit', $location->id) }}"
                                                             class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>

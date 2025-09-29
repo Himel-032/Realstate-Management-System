@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Type;
+use App\Models\Property;
 
 class AdminTypeController extends Controller
 {
@@ -57,6 +58,11 @@ class AdminTypeController extends Controller
     }
     public function delete($id)
     {
+        // If type has any property , then you cannot delete this location
+        $property = Property::where('type_id', $id)->first();
+        if ($property) {
+            return redirect()->route('admin_type_index')->with('error', 'You cannot delete this Type. It is associated with some properties.');
+        }
         $type = Type::where('id', $id)->first();
         $type->delete();
 
