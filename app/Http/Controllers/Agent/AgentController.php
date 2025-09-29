@@ -496,6 +496,10 @@ class AgentController extends Controller
         if (!$order) {
             return redirect()->route('agent_payment')->with('error', 'You do not have an active package.Please purchase a package to add property.');
         }
+        // agent can't add more property than allowed in his package
+        if($order->package->allowed_properties <= Property::where('agent_id', Auth::guard('agent')->user()->id)->count()){
+            return redirect()->route('agent_payment')->with('error', 'Your current package does not allow you to add more properties. Please upgrade your package.');
+        }
 
         $locations = Location::orderBy('id', 'asc')->get();
         $types = Type::orderBy('id', 'asc')->get();
@@ -671,6 +675,22 @@ class AgentController extends Controller
     }
     public function property_photo_gallery_store(Request $request, $id)
     {
+        // check if agent has any active package
+        $order = Order::where('agent_id', Auth::guard('agent')->user()->id)->where('currently_active', 1)->first();
+        if (!$order) {
+            return redirect()->route('agent_payment')->with('error', 'You do not have an active package. Please purchase a package to add property photos.');
+        }
+        // check if agent has reached the limit of properties allowed by his package
+        if ($order->package->allowed_properties <= Property::where('agent_id', Auth::guard('agent')->user()->id)->count()) {
+            return redirect()->route('agent_payment')->with('error', 'Your current package does not allow you to add more properties. Please upgrade your package.');
+        }
+        // check if agent can add more photos according to his package
+        $allowed_photos = $order->package->allowed_photos;
+        $current_photos_count = PropertyPhoto::where('property_id', $id)->count();
+        if ($current_photos_count >= $allowed_photos) {
+            return redirect()->back()->with('error', 'You have reached the maximum number of photos allowed for your current package. Please upgrade your package to add more photos.');
+        }
+
         $property = Property::where('id', $id)->where('agent_id', Auth::guard('agent')->user()->id)->first();
         if (!$property) {
             return redirect()->back()->with('error', 'Property not found');
@@ -716,6 +736,21 @@ class AgentController extends Controller
     }
     public function property_video_gallery_store(Request $request, $id)
     {
+        // check if agent has any active package
+        $order = Order::where('agent_id', Auth::guard('agent')->user()->id)->where('currently_active', 1)->first();
+        if (!$order) {
+            return redirect()->route('agent_payment')->with('error', 'You do not have an active package. Please purchase a package to add property photos.');
+        }
+        // check if agent has reached the limit of properties allowed by his package
+        if ($order->package->allowed_properties <= Property::where('agent_id', Auth::guard('agent')->user()->id)->count()) {
+            return redirect()->route('agent_payment')->with('error', 'Your current package does not allow you to add more properties. Please upgrade your package.');
+        }
+        // check if agent can add more videos according to his package
+        $allowed_videos = $order->package->allowed_videos;
+        $current_videos_count = PropertyVideo::where('property_id', $id)->count();
+        if ($current_videos_count >= $allowed_videos) {
+            return redirect()->back()->with('error', 'You have reached the maximum number of videos allowed for your current package. Please upgrade your package to add more videos.');
+        }
         $property = Property::where('id', $id)->where('agent_id', Auth::guard('agent')->user()->id)->first();
         if (!$property) {
             return redirect()->back()->with('error', 'Property not found');
