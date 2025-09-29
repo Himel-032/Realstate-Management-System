@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Agent;
+use App\Models\Property;
 use App\Mail\WebsiteMail;
 
 class AdminAgentController extends Controller
@@ -151,6 +152,11 @@ class AdminAgentController extends Controller
     }
     public function delete($id)
     {
+        // agent can't be deleted if he has properties
+        $property = Property::where('agent_id', $id)->first();
+        if($property) {
+            return redirect()->route('admin_agent_index')->with('error', 'Agent can\'t be deleted. He has some properties.');
+        }
         $agent = Agent::where('id', $id)->first();
         if ($agent->photo != '') {
             unlink(public_path('uploads/' . $agent->photo));
