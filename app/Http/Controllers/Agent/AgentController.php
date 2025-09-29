@@ -481,11 +481,22 @@ class AgentController extends Controller
     }
     public function property_all()
     {
+        // check if this agent has an active order
+        $order = Order::where('agent_id', Auth::guard('agent')->user()->id)->where('currently_active', 1)->first();
+        if (!$order) {
+            return redirect()->route('agent_payment')->with('error', 'You do not have an active order or any purchased package.');
+        }
         $properties = Property::where('agent_id', Auth::guard('agent')->user()->id)->get();
         return view('agent.property.index', compact('properties'));
     }
     public function property_create()
     {
+        // check if this agent has an active order
+        $order = Order::where('agent_id', Auth::guard('agent')->user()->id)->where('currently_active', 1)->first();
+        if (!$order) {
+            return redirect()->route('agent_payment')->with('error', 'You do not have an active package.Please purchase a package to add property.');
+        }
+
         $locations = Location::orderBy('id', 'asc')->get();
         $types = Type::orderBy('id', 'asc')->get();
         $amenities = Amenity::orderBy('id', 'asc')->get();
