@@ -71,4 +71,14 @@ class FrontController extends Controller
         return view('front.locations', compact('locations'));
 
     }
+
+    public function location($slug)
+    {
+        $location = Location::where('slug',$slug)->first();
+        if(!$location){
+            return redirect()->route('front.locations')->with('error','Location not found');
+        }
+        $properties = Property::where('location_id',$location->id)->where('status','Active')->orderBy('id','asc')->paginate(6);
+        return view('front.location', compact('location','properties'));
+    }
 }
