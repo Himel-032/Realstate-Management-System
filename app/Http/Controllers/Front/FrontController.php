@@ -16,7 +16,8 @@ class FrontController extends Controller
 {
     public function index()
     {
-        $properties = Property::where('status', 'Active')
+        // only featured and package is up to date property
+        $properties = Property::where('status', 'Active')->where('is_featured', 'Yes')
             ->whereHas('agent', function ($query) {
                 $query->whereHas('orders', function ($q) {
                     $q->where('status', 'Completed')

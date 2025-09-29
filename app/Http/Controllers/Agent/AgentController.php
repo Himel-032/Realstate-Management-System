@@ -507,9 +507,6 @@ class AgentController extends Controller
             return redirect()->route('agent_payment')->with('error', 'Your package has expired. Please renew your package to add property.');
             
         }
-        
-        
-
         $locations = Location::orderBy('id', 'asc')->get();
         $types = Type::orderBy('id', 'asc')->get();
         $amenities = Amenity::orderBy('id', 'asc')->get();
@@ -517,6 +514,13 @@ class AgentController extends Controller
     }
     public function property_store(Request $request)
     {
+        // check if the featured property has been reached to maximum limit
+        $order = Order::where('agent_id', Auth::guard('agent')->user()->id)->where('currently_active', 1)->first();
+        if($request->is_featured == 'Yes'){
+            if($order->package->allowed_featured_properties <= Property::where('agent_id', Auth::guard('agent')->user()->id)->where('is_featured', 'Yes')->count()){
+                return redirect()->back()->with('error', 'Your current package does not allow you to add more featured properties. Please upgrade your package.');
+            }
+        }
         $request->validate([
             'name' => ['required'],
             'slug' => ['required', 'unique:properties,slug', 'regex:/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/'],
