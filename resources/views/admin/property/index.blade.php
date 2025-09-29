@@ -56,6 +56,7 @@
                                                     </td>
                                                     <td>
                                                         <a href="{{ route('admin_property_detail', $property->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i></a>
+                                                        <a href="{{ route('admin_property_delete', $property->id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');"><i class="fas fa-trash"></i></a>
                                                     </td>
 
                                                 </tr>

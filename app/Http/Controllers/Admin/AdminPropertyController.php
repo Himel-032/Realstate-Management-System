@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Mail\Websitemail;
 use Illuminate\Http\Request;
 use App\Models\Property;
+use App\Models\PropertyPhoto;
+use App\Models\PropertyVideo;
 
 class AdminPropertyController extends Controller
 {
@@ -38,5 +40,31 @@ class AdminPropertyController extends Controller
         return redirect()->back()->with('success', 'Property status changed successfully.');
     }
 
+    public function delete($id)
+    {
+        $property = Property::where('id', $id)->first();
+        if (!$property) {
+            return redirect()->back()->with('error', 'Property not found');
+        }
+        if ($property->featured_photo != '') {
+            unlink(public_path('uploads/' . $property->featured_photo));
+        }
+
+        // delete all property photos
+        $photos = PropertyPhoto::where('property_id', $property->id)->get();
+        foreach ($photos as $photo) {
+            if ($photo->photo != '') {
+                unlink(public_path('uploads/' . $photo->photo));
+            }
+            $photo->delete();
+        }
+        // delete all property videos
+        $videos = PropertyVideo::where('property_id', $property->id)->get();
+        foreach ($videos as $video) {
+            $video->delete();
+        }
+        $property->delete();
+        return redirect()->back()->with('success', 'Property deleted successfully');
+    }
    
 }

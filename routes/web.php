@@ -154,6 +154,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/property/index', [AdminPropertyController::class, 'index'])->name('admin_property_index');
     Route::get('/property/detail/{id}', [AdminPropertyController::class, 'detail'])->name('admin_property_detail');
     Route::get('/property/index/change-status/{id}', [AdminPropertyController::class, 'change_status'])->name('admin_property_change_status');
+    Route::get('/property/delete/{id}', [AdminPropertyController::class, 'delete'])->name('admin_property_delete');
 
 });
 
