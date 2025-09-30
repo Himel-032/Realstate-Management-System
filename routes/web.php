@@ -28,6 +28,8 @@ Route::get('/location/{slug}', [FrontController::class, 'location'])->name('loca
 Route::get('/agents', [FrontController::class, 'agents'])->name('agents');
 Route::get('/agent/detail/{id}',[FrontController::class,'agent'])->whereNumber('id')->name('agent');
 
+Route::get('/property-search', [FrontController::class, 'property_search'])->name('property_search');
+
 //User 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');

@@ -19,7 +19,7 @@
                             <a href="{{ route('home') }}" class="nav-link">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a href="properties.html" class="nav-link">Properties</a>
+                            <a href="{{ url('property-search') }}" class="nav-link">Properties</a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('agents') }}" class="nav-link">Agents</a>

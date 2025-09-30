@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Package;
 use App\Models\Property;
 use App\Models\Location;
+use App\Models\Type;
+use App\Models\Amenity;
 use App\Models\PropertyPhoto;
 use App\Models\PropertyVideo;
 use App\Models\Agent;
@@ -20,7 +22,8 @@ class FrontController extends Controller
         $properties = Property::where('status', 'Active')->where('is_featured', 'Yes')
             ->whereHas('agent', function ($query) {
                 $query->whereHas('orders', function ($q) {
-                    $q->where('status', 'Completed')
+                    $q->where('currently_active', 1)
+                        ->where('status', 'Completed')
                         ->where('expire_date', '>=', now());
                 });
             })
@@ -127,7 +130,7 @@ class FrontController extends Controller
                         ->where('expire_date', '>=', now());
                 });
             })
-            ->orderBy('id', 'asc')->take(3)->paginate(6);
+            ->orderBy('id', 'asc')->paginate(6);
 
         return view('front.location', compact('location', 'properties'));
     }
@@ -157,4 +160,62 @@ class FrontController extends Controller
         return view('front.agent', compact('agent', 'properties'));
     }
 
+    public function property_search(Request $request)
+    {
+        $form_location = $request->location;
+        $form_type = $request->type;
+        $form_name = $request->name;
+        $form_purpose = $request->purpose;
+        $form_bedroom = $request->bedroom;
+        $form_bathroom = $request->bathroom;
+        $from_min_price = $request->min_price;
+        $from_max_price = $request->max_price;
+
+        $properties = Property::where('status', 'Active')
+            ->whereHas('agent', function ($query) {
+                $query->whereHas('orders', function ($q) {
+                    $q->where('currently_active', 1)
+                        ->where('status', 'Completed')
+                        ->where('expire_date', '>=', now());
+                });
+            });
+        if($request->name != null){
+            $properties = $properties->where('name', 'like', '%' . $request->name . '%');
+        }
+        if($request->location != null){
+            $properties = $properties->where('location_id', $request->location);
+        }
+        if($request->type != null){
+            $properties = $properties->where('type_id', $request->type);
+        }
+        if($request->purpose != null){
+            $properties = $properties->where('purpose', $request->purpose);
+        }
+        if($request->bedroom != null){
+            $properties = $properties->where('bedroom', $request->bedroom);
+        }
+        if($request->bathroom != null){
+            $properties = $properties->where('bathroom', $request->bathroom);
+        }
+        if($request->min_price != null){
+            $properties = $properties->where('price', '>=', $request->min_price);
+        }
+        if($request->max_price != null){
+            $properties = $properties->where('price', '<=', $request->max_price);
+        }
+        // if($request->amenities != null && is_array(request->amenities)){
+        //     $amenities = $request->amenities;
+        //     $properties = $properties->whereHas('amenities', function($q) use($amenities){
+        //         $q->whereIn('amenity_id', $amenities);
+        //     }, '=', count($amenities));
+        // }
+        $properties =  $properties->orderBy('id', 'asc')->paginate(2);
+
+
+        $locations = Location::orderBy('name', 'asc')->get();
+        $types = Type::orderBy('name', 'asc')->get();
+        $amenities = Amenity::orderBy('name', 'asc')->get();
+
+        return view('front.property_search', compact('locations', 'types', 'amenities', 'properties', 'form_location', 'form_type', 'form_name', 'form_purpose', 'form_bedroom', 'form_bathroom', 'from_min_price', 'from_max_price'));
+    }
 }
