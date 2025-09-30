@@ -39,6 +39,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile', [UserController::class, 'profile_submit'])->name('profile_submit');
     Route::get('/wishlist', [UserController::class, 'wishlist'])->name('wishlist');
     Route::get('/wishlist-delete/{id}', [UserController::class, 'wishlist_delete'])->name('wishlist_delete');
+    Route::get('/message/index', [UserController::class, 'message'])->name('message');
+    Route::get('/message/create', [UserController::class, 'message_create'])->name('message_create');
+    Route::post('/message/store', [UserController::class, 'message_store'])->name('message_store');
 });
     Route::get('/registration', [UserController::class, 'registration'])->name('registration');
     Route::post('/registration', [UserController::class, 'registration_submit'])->name('registration_submit');

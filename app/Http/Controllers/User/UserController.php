@@ -7,8 +7,11 @@ use Illuminate\Http\Request;
 use Hash;
 use Auth;
 use App\Models\User;
+use App\Models\Agent;
 use App\Models\Wishlist;
 use App\Models\Property;
+use App\Models\Message;
+use App\Models\MessageReply;
 use App\Mail\WebsiteMail;
 
 class UserController extends Controller
@@ -205,5 +208,32 @@ class UserController extends Controller
         } else {
             return redirect()->back()->with('error', 'Wishlist item not found');
         }
+    }
+    public function message()
+    {
+        $messages = Message::where('user_id', Auth::guard('web')->user()->id)->get();
+        return view('user.message.index', compact('messages'));
+    }
+    public function message_create()
+    {
+        $agents = Agent::where('status', 1)->get();
+        return view('user.message.create', compact('agents'));
+    }
+    public function message_store(Request $request)
+    {
+        $request->validate([
+            'agent_id' => 'required',
+            'subject' => 'required',
+            'message' => 'required',
+        ]);
+
+        $message = new Message();
+        $message->user_id = Auth::guard('web')->user()->id;
+        $message->agent_id = $request->agent_id;
+        $message->subject = $request->subject;
+        $message->message = $request->message;
+        $message->save();
+
+        return redirect()->route('message')->with('success', 'Message sent successfully');
     }
 }
