@@ -16,6 +16,8 @@ use App\Models\Type;
 use App\Models\Amenity;
 use App\Models\PropertyPhoto;
 use App\Models\PropertyVideo;
+use App\Models\Message;
+use App\Models\MessageReply;
 use App\Mail\WebsiteMail;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
@@ -791,5 +793,33 @@ class AgentController extends Controller
        
         $video->delete();
         return redirect()->back()->with('success', 'Video deleted successfully');
+    }
+
+    public function message()
+    {
+        $messages = Message::where('agent_id', Auth::guard('agent')->user()->id)->orderBy('id', 'desc')->get();
+        return view('agent.message.index', compact('messages'));
+    }
+    public function message_reply($id)
+    {
+        $message = Message::where('id', $id)->first();
+        $replies = MessageReply::where('message_id', $id)->get();
+        return view('agent.message.reply', compact('message', 'replies'));
+    }
+    public function message_reply_submit(Request $request, $m_id, $c_id)
+    {
+        $request->validate([
+            'reply' => 'required',
+        ]);
+
+        $reply = new MessageReply();
+        $reply->message_id = $m_id;
+        $reply->agent_id = Auth::guard('agent')->user()->id;
+        $reply->user_id = $c_id;
+        $reply->sender = 'Agent';
+        $reply->reply = $request->reply;
+        $reply->save();
+
+        return redirect()->back()->with('success', 'Reply sent successfully');
     }
 }

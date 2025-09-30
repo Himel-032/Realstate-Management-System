@@ -87,6 +87,11 @@ Route::middleware('agent')->prefix('agent')->group(function () {
     Route::get('/property/video-gallery/{property_id}', [AgentController::class, 'property_video_gallery'])->name('agent_property_video_gallery');
     Route::post('/property/video-gallery/{property_id}', [AgentController::class, 'property_video_gallery_store'])->name('agent_property_video_gallery_store');
     Route::get('/property/video-gallery-delete/{property_id}', [AgentController::class, 'property_video_gallery_delete'])->name('agent_property_video_gallery_delete');
+
+    // messages
+    Route::get('/message/index', [AgentController::class, 'message'])->name('agent_message');
+    Route::get('/message/reply/{id}', [AgentController::class, 'message_reply'])->name('agent_message_reply');
+    Route::post('/message/reply-submit/{message_id}/{agent_id}', [AgentController::class, 'message_reply_submit'])->name('agent_message_reply_submit');
 });
 
 Route::prefix('agent')->group(function () {
