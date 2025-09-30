@@ -168,8 +168,8 @@ class FrontController extends Controller
         $form_purpose = $request->purpose;
         $form_bedroom = $request->bedroom;
         $form_bathroom = $request->bathroom;
-        $from_min_price = $request->min_price;
-        $from_max_price = $request->max_price;
+        $form_min_price = $request->min_price;
+        $form_max_price = $request->max_price;
 
         $properties = Property::where('status', 'Active')
             ->whereHas('agent', function ($query) {
@@ -209,13 +209,13 @@ class FrontController extends Controller
         //         $q->whereIn('amenity_id', $amenities);
         //     }, '=', count($amenities));
         // }
-        $properties =  $properties->orderBy('id', 'asc')->paginate(2);
+        $properties =  $properties->orderBy('id', 'asc')->paginate(4);
 
 
         $locations = Location::orderBy('name', 'asc')->get();
         $types = Type::orderBy('name', 'asc')->get();
         $amenities = Amenity::orderBy('name', 'asc')->get();
 
-        return view('front.property_search', compact('locations', 'types', 'amenities', 'properties', 'form_location', 'form_type', 'form_name', 'form_purpose', 'form_bedroom', 'form_bathroom', 'from_min_price', 'from_max_price'));
+        return view('front.property_search', compact('locations', 'types', 'amenities', 'properties', 'form_location', 'form_type', 'form_name', 'form_purpose', 'form_bedroom', 'form_bathroom', 'form_min_price', 'form_max_price'));
     }
 }

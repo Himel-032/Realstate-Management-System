@@ -25,7 +25,7 @@
 
                         <div class="widget">
                             <h2>Location</h2>
-                            <select name="location" class="form-control select2">
+                            <select name="location" class="form-control select2" onchange="this.form.submit()">
                                 <option value=""> Select Location</option>
                                 @foreach($locations as $location)
                                     <option value="{{ $location->id }}" @if($form_location == $location->id) selected @endif >{{ $location->name }}</option>
@@ -35,7 +35,7 @@
 
                         <div class="widget">
                             <h2>Type</h2>
-                            <select name="type" class="form-control select2">
+                            <select name="type" class="form-control select2" onchange="this.form.submit()">
                                 <option value=""> Select Type</option>
                                 @foreach($types as $type)
                                     <option value="{{ $type->id }}" @if($form_type == $type->id) selected @endif>{{ $type->name }}</option>
@@ -45,7 +45,7 @@
 
                         <div class="widget">
                             <h2>Purpose</h2>
-                            <select name="purpose" class="form-control select2">
+                            <select name="purpose" class="form-control select2"  onchange="this.form.submit()">
                                 <option value=""> Select Purpose</option>
                                 <option value="Rent" @if($form_purpose == 'Rent') selected @endif>For Rent</option>
                                 <option value="Sale" @if($form_purpose == 'Sale') selected @endif>For Sale</option>
@@ -54,7 +54,7 @@
 
                         <div class="widget">
                             <h2>Amenities</h2>
-                            <select name="amenity" class="form-control select2">
+                            <select name="amenity" class="form-control select2" onchange="this.form.submit()">
                                 <option value="">Select Amenity</option>
                                 @foreach($amenities as $amenity)
                                     <option value="{{ $amenity->id }}">{{ $amenity->name }}</option>
@@ -64,7 +64,7 @@
 
                         <div class="widget">
                             <h2>Bedrooms</h2>
-                            <select name="bedroom" class="form-control select2">
+                            <select name="bedroom" class="form-control select2" onchange="this.form.submit()">
                                 <option value="">Select Bedrooms</option>
                                 @for($i = 1; $i <= 50; $i++)
                                 <option value="{{ $i }}" @if($form_bedroom == $i) selected @endif>{{ $i }}</option>
@@ -74,7 +74,7 @@
 
                         <div class="widget">
                             <h2>Bathrooms</h2>
-                            <select name="bathroom" class="form-control select2">
+                            <select name="bathroom" class="form-control select2" onchange="this.form.submit()">
                                 <option value="">Select Bathroom</option>
                                 @for($i = 1; $i <= 50; $i++)
                                     <option value="{{ $i }}" @if($form_bathroom == $i) selected @endif>{{ $i }}</option>
@@ -84,33 +84,65 @@
 
                         <div class="widget">
                             <h2>Min Price</h2>
-                            <select name="min_price" class="form-control select2">
+                            <select name="min_price" class="form-control select2" onchange="this.form.submit()">
                                 <option value="">Select Minimum Price</option>
-                                <option value="500">500</option>
-                                <option value="1000">1000</option>
-                                <option value="2000">2000</option>
-                                <option value="3000">3000</option>
-                                <option value="5000">5000</option>
-                                <option value="10000">10000</option>
-                                <option value="20000">20000</option>
-                                <option value="30000">30000</option>
-                                <option value="50000">50000</option>
+                                <option value="1000" {{ $form_min_price == 1000 ? 'selected' : '' }}>1000</option>
+                                <option value="2000" {{ $form_min_price == 2000 ? 'selected' : '' }}>2000</option>
+                                <option value="3000" {{ $form_min_price == 3000 ? 'selected' : '' }}>3000</option>
+                                <option value="5000" {{ $form_min_price == 5000 ? 'selected' : '' }}>5000</option>
+                                <option value="10000" {{ $form_min_price == 10000 ? 'selected' : '' }}>10000</option>
+                                <option value="20000" {{ $form_min_price == 20000 ? 'selected' : '' }}>20000</option>
+                                <option value="30000" {{ $form_min_price == 30000 ? 'selected' : '' }}>30000</option>
+                                <option value="50000" {{ $form_min_price == 50000 ? 'selected' : '' }}>50000</option>
+                                <option value="60000" {{ $form_min_price == 60000 ? 'selected' : '' }}>60000</option>
+                                <option value="70000" {{ $form_min_price == 70000 ? 'selected' : '' }}>70000</option>
+                                <option value="80000" {{ $form_min_price == 80000 ? 'selected' : '' }}>80000</option>
+                                <option value="90000" {{ $form_min_price == 90000 ? 'selected' : '' }}>90000</option>
+                                <option value="100000" {{ $form_min_price == 100000 ? 'selected' : '' }}>100000</option>
+                                <option value="200000" {{ $form_min_price == 200000 ? 'selected' : '' }}>200000</option>
+                                <option value="300000" {{ $form_min_price == 300000 ? 'selected' : '' }}>300000</option>
+                                <option value="400000" {{ $form_min_price == 400000 ? 'selected' : '' }}>400000</option>
+                                <option value="500000" {{ $form_min_price == 500000 ? 'selected' : '' }}>500000</option>
+                                <option value="600000" {{ $form_min_price == 600000 ? 'selected' : '' }}>600000</option>
+                                <option value="700000" {{ $form_min_price == 700000 ? 'selected' : '' }}>700000</option>
+                                <option value="800000" {{ $form_min_price == 800000 ? 'selected' : '' }}>800000</option>
+                                <option value="900000" {{ $form_min_price == 900000 ? 'selected' : '' }}>900000</option>
+                                <option value="1000000" {{ $form_min_price == 1000000 ? 'selected' : '' }}>1000000</option>
+                                <option value="2000000" {{ $form_min_price == 2000000 ? 'selected' : '' }}>2000000</option>
+                                <option value="3000000" {{ $form_min_price == 3000000 ? 'selected' : '' }}>3000000</option>
+
                             </select>
+
                         </div>
 
                         <div class="widget">
                             <h2>Max Price</h2>
-                            <select name="max_price" class="form-control select2">
+                            <select name="max_price" class="form-control select2" onchange="this.form.submit()">
                                 <option value="">Select Maximum Price</option>
-                                <option value="500">500</option>
-                                <option value="1000">1000</option>
-                                <option value="2000">2000</option>
-                                <option value="3000">3000</option>
-                                <option value="5000">5000</option>
-                                <option value="10000">10000</option>
-                                <option value="20000">20000</option>
-                                <option value="30000">30000</option>
-                                <option value="50000">50000</option>
+                                <option value="1000" @if($form_max_price == 1000) selected @endif>1000</option>
+                                <option value="2000" @if($form_max_price == 2000) selected @endif>2000</option>
+                                <option value="3000" @if($form_max_price == 3000) selected @endif>3000</option>
+                                <option value="5000" @if($form_max_price == 5000) selected @endif>5000</option>
+                                <option value="10000" @if($form_max_price == 10000) selected @endif>10000</option>
+                                <option value="20000" @if($form_max_price == 20000) selected @endif>20000</option>
+                                <option value="30000" @if($form_max_price == 30000) selected @endif>30000</option>
+                                <option value="50000" @if($form_max_price == 50000) selected @endif>50000</option>
+                                <option value="60000" @if($form_max_price == 60000) selected @endif>60000</option>
+                                <option value="70000" @if($form_max_price == 70000) selected @endif>70000</option>
+                                <option value="80000" @if($form_max_price == 80000) selected @endif>80000</option>
+                                <option value="90000" @if($form_max_price == 90000) selected @endif>90000</option>
+                                <option value="100000" @if($form_max_price == 100000) selected @endif>100000</option>
+                                <option value="200000" @if($form_max_price == 200000) selected @endif>200000</option>
+                                <option value="300000" @if($form_max_price == 300000) selected @endif>300000</option>
+                                <option value="400000" @if($form_max_price == 400000) selected @endif>400000</option>
+                                <option value="500000" @if($form_max_price == 500000) selected @endif>500000</option>
+                                <option value="600000" @if($form_max_price == 600000) selected @endif>600000</option>
+                                <option value="700000" @if($form_max_price == 700000) selected @endif>700000</option>
+                                <option value="800000" @if($form_max_price == 800000) selected @endif>800000</option>
+                                <option value="900000" @if($form_max_price == 900000) selected @endif>900000</option>
+                                <option value="1000000" @if($form_max_price == 1000000) selected @endif>1000000</option>
+                                <option value="2000000" @if($form_max_price == 2000000) selected @endif>2000000</option>
+                                <option value="3000000" @if($form_max_price == 3000000) selected @endif>3000000</option>
                             </select>
                         </div>
 

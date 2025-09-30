@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->text('description')->nullable();
-            $table->string('price');
+            $table->integer('price');
             $table->string('featured_photo');
             $table->string('purpose');
             $table->integer('bedroom')->nullable();
