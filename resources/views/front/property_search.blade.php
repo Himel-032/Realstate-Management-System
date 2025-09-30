@@ -57,7 +57,7 @@
                             <select name="amenity" class="form-control select2" onchange="this.form.submit()">
                                 <option value="">Select Amenity</option>
                                 @foreach($amenities as $amenity)
-                                    <option value="{{ $amenity->id }}">{{ $amenity->name }}</option>
+                                    <option value="{{ $amenity->id }}" @if($form_amenity == $amenity->id) selected @endif>{{ $amenity->name }}</option>
                                 @endforeach
                             </select>
                         </div>
