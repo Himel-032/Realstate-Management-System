@@ -73,60 +73,72 @@
             </div>
             <div class="row">
                 @foreach($properties as $item)
-                <div class="col-lg-4 col-md-6 col-sm-12">
-                    <div class="item">
-                        <div class="photo">
-                            <img class="main" src="{{ asset('uploads/' . $item->featured_photo) }}" alt="">
-                            <div class="top">
-                                @if($item->purpose == 'Sale')
-                                <div class="status-sale">
-                                    For Sale
-                                </div>
-                                @elseif($item->purpose == 'Rent')
-                                <div class="status-rent">
-                                    For Rent
-                                </div>
-                                @endif
-                                @if($item->is_featured == 'Yes')
-                                <div class="featured">
-                                    Featured
-                                </div>
-                                @endif
-                            </div>
-                            <div class="price">${{ $item->price }}</div>
-                            <div class="wishlist"><a href=""><i class="far fa-heart"></i></a></div>
-                        </div>
-                        <div class="text">
-                            <h3><a href="{{ route('property_detail', $item->slug)}}">{{ $item->name }}</a></h3>
-                            <div class="detail">
-                                <div class="stat">
-                                    <div class="i1">{{ $item->size }} sqft</div>
-                                    <div class="i2">{{ $item->bedroom }} Bed</div>
-                                    <div class="i3">{{ $item->bathroom }} Bath</div>
-                                </div>
-                                <div class="address">
-                                    <i class="fas fa-map-marker-alt"></i> {{ $item->address }}
-                                </div>
-                                <div class="type-location">
-                                    <div class="i1">
-                                        <i class="fas fa-edit"></i> {{ $item->type->name }}
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="item">
+                            <div class="photo">
+                                <img class="main" src="{{ asset('uploads/' . $item->featured_photo) }}" alt="">
+                                <div class="top">
+                                    @if($item->purpose == 'Sale')
+                                    <div class="status-sale">
+                                        For Sale
                                     </div>
-                                    <div class="i2">
-                                        <i class="fas fa-location-arrow"></i> {{ $item->location->name }}
+                                    @elseif($item->purpose == 'Rent')
+                                    <div class="status-rent">
+                                        For Rent
                                     </div>
-                                </div>
-                                <div class="agent-section">
-                                    @if($item->agent->photo != '')
-                                    <img class="agent-photo" src="{{ asset('uploads/' . $item->agent->photo) }}" alt="">
-                                    @else
-                                    <img class="agent-photo" src="{{ asset('uploads/default.png') }}" alt="">
                                     @endif
-                                    <a href="{{ route('agent', $item->agent->id) }}">{{ $item->agent->name }} ({{ $item->agent->company }})</a>
+                                    @if($item->is_featured == 'Yes')
+                                    <div class="featured">
+                                        Featured
+                                    </div>
+                                    @endif
+                                </div>
+                                <div class="price">${{ $item->price }}</div>
+                                <!-- <div class="wishlist"><a href="{{ route('wishlist_add', $item->id) }}"><i class="far fa-heart"></i></a></div> -->
+                                <div class="wishlist">
+                                    @if(in_array($item->id, $wishlist_ids))
+                                        <a href="{{ route('wishlist_add', $item->id) }}">
+                                            <i class="fas fa-heart" style="color: pink;"></i> <!-- filled heart -->
+                                        </a>
+                                    @else
+                                        <a href="{{ route('wishlist_add', $item->id) }}">
+                                            <i class="far fa-heart" style="color: pink;"></i> <!-- empty heart -->
+                                        </a>
+                                    @endif
+                                </div>
+
+                            </div>
+                            <div class="text">
+                                <h3><a href="{{ route('property_detail', $item->slug)}}">{{ $item->name }}</a></h3>
+                                <div class="detail">
+                                    <div class="stat">
+                                        <div class="i1">{{ $item->size }} sqft</div>
+                                        <div class="i2">{{ $item->bedroom }} Bed</div>
+                                        <div class="i3">{{ $item->bathroom }} Bath</div>
+                                    </div>
+                                    <div class="address">
+                                        <i class="fas fa-map-marker-alt"></i> {{ $item->address }}
+                                    </div>
+                                    <div class="type-location">
+                                        <div class="i1">
+                                            <i class="fas fa-edit"></i> {{ $item->type->name }}
+                                        </div>
+                                        <div class="i2">
+                                            <i class="fas fa-location-arrow"></i> {{ $item->location->name }}
+                                        </div>
+                                    </div>
+                                    <div class="agent-section">
+                                        @if($item->agent->photo != '')
+                                        <img class="agent-photo" src="{{ asset('uploads/' . $item->agent->photo) }}" alt="">
+                                        @else
+                                        <img class="agent-photo" src="{{ asset('uploads/default.png') }}" alt="">
+                                        @endif
+                                        <a href="{{ route('agent', $item->agent->id) }}">{{ $item->agent->name }} ({{ $item->agent->company }})</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 @endforeach
 
 

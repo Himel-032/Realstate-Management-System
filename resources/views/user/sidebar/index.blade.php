@@ -5,8 +5,8 @@
     <li class="list-group-item">
         <a href="">Messages</a>
     </li>
-    <li class="list-group-item">
-        <a href="">Wishlist</a>
+    <li class="list-group-item {{ request()->is('wishlist') ? 'active' : '' }}">
+        <a href="{{ route('wishlist') }}">Wishlist</a>
     </li>
     <li class="list-group-item {{ request()->is('profile') ? 'active' : '' }}">
         <a href="{{ route('profile') }}">Edit Profile</a>

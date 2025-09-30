@@ -11,13 +11,22 @@ use App\Models\Amenity;
 use App\Models\PropertyPhoto;
 use App\Models\PropertyVideo;
 use App\Models\Agent;
+use App\Models\User;
 use App\Mail\Websitemail;
+use App\Models\Wishlist;
 use Illuminate\Http\Request;
+use Auth;
 
 class FrontController extends Controller
 {
     public function index()
     {
+        // get wishlist id of the logged in user
+        $wishlist_ids = [];
+        if(Auth::guard('web')->check()) {
+            $user_id = Auth::guard('web')->user()->id;
+            $wishlist_ids = Wishlist::where('user_id', $user_id)->pluck('property_id')->toArray();
+        }
 
         // only featured and package is up to date property
         $properties = Property::where('status', 'Active')->where('is_featured', 'Yes')
@@ -48,7 +57,7 @@ class FrontController extends Controller
         $search_locations = Location::orderBy('name', 'asc')->get();
         $search_types = Type::orderBy('name', 'asc')->get();
 
-        return view('front.home', compact('properties', 'locations', 'agents', 'search_locations', 'search_types'));
+        return view('front.home', compact('properties', 'locations', 'agents', 'search_locations', 'search_types', 'wishlist_ids'));
     }
     public function contact()
     {
@@ -220,5 +229,22 @@ class FrontController extends Controller
 
         return view('front.property_search', compact('locations', 'types', 'amenities', 'properties', 'form_location',
          'form_type', 'form_name', 'form_purpose', 'form_bedroom', 'form_bathroom', 'form_min_price', 'form_max_price', 'form_amenity'));
+    }
+
+    public function wishlist_add($id)
+    {
+        if(!Auth::guard('web')->check()) {
+            return redirect()->route('front.login')->with('error', 'You must be logged in to add to wishlist');
+        }
+        // check if the property is already in wishlist
+        $existingWishlist = Wishlist::where('user_id', Auth::guard('web')->user()->id)->where('property_id', $id)->first();
+        if($existingWishlist) {
+            return redirect()->back()->with('error', 'Property is already in your wishlist');
+        }
+        $obj = new Wishlist();
+        $obj->user_id = Auth::guard('web')->user()->id;
+        $obj->property_id = $id;
+        $obj->save();
+        return redirect()->back()->with('success', 'Property added to wishlist');
     }
 }

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Hash;
 use Auth;
 use App\Models\User;
+use App\Models\Wishlist;
+use App\Models\Property;
 use App\Mail\WebsiteMail;
 
 class UserController extends Controller
@@ -189,4 +191,19 @@ class UserController extends Controller
 
         return redirect()->back()->with('success', 'Profile updated successfully');
      }
+    public function wishlist()
+    {
+        $wishlists = Wishlist::where('user_id', Auth::guard('web')->user()->id)->get();
+        return view('user.wishlist.index', compact('wishlists'));
+    }
+    public function wishlist_delete($id)
+    {
+        $wishlist = Wishlist::where('id', $id)->first();
+        if($wishlist) {
+            $wishlist->delete();
+            return redirect()->back()->with('success', 'Wishlist item deleted successfully');
+        } else {
+            return redirect()->back()->with('error', 'Wishlist item not found');
+        }
+    }
 }

@@ -28,6 +28,8 @@ Route::get('/location/{slug}', [FrontController::class, 'location'])->name('loca
 Route::get('/agents', [FrontController::class, 'agents'])->name('agents');
 Route::get('/agent/detail/{id}',[FrontController::class,'agent'])->whereNumber('id')->name('agent');
 
+Route::get('/wishlist-add/{id}', [FrontController::class, 'wishlist_add'])->whereNumber('id')->name('wishlist_add');
+
 Route::get('/property-search', [FrontController::class, 'property_search'])->name('property_search');
 
 //User 
@@ -35,6 +37,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     Route::post('/profile', [UserController::class, 'profile_submit'])->name('profile_submit');
+    Route::get('/wishlist', [UserController::class, 'wishlist'])->name('wishlist');
+    Route::get('/wishlist-delete/{id}', [UserController::class, 'wishlist_delete'])->name('wishlist_delete');
 });
     Route::get('/registration', [UserController::class, 'registration'])->name('registration');
     Route::post('/registration', [UserController::class, 'registration_submit'])->name('registration_submit');
