@@ -29,6 +29,7 @@
                                         <th>SL</th>
                                         <th>Subject</th>
                                         <th>Agent</th>
+                                        <th>Date & Time</th>
                                         <th class="w-100">Action</th>
                                     </tr>
                                     @foreach($messages as $item)
@@ -41,11 +42,15 @@
                                                 {{ $item->agent->company }}
                                             </td>
                                             <td>
-                                                <a href="" class="btn btn-primary btn-sm">
+                                                {{ $item->created_at->format('d M, Y') }}
+                                                <br> 
+                                                {{ $item->created_at->format('h:i A') }}</td>
+                                            <td>
+                                                <a href="{{ route('message_reply', $item->id) }}" class="btn btn-primary btn-sm">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                         
-                                                <a href="" class="btn btn-danger btn-sm"
+
+                                                <a href="{{ route('message_delete', $item->id) }}" class="btn btn-danger btn-sm"
                                                     onclick="return confirm('Are you sure ?')">
                                                     <i class="fas fa-trash"></i>
                                                 </a>

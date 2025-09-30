@@ -233,7 +233,44 @@ class UserController extends Controller
         $message->subject = $request->subject;
         $message->message = $request->message;
         $message->save();
+        // send email to agent 
+        $agent = Agent::where('id', $request->agent_id)->first();
+        if($agent) {
+            $subject = "New Message from Customer";
+            $msg = "You have received a new message from ".Auth::guard('web')->user()->name."<br>";
+            $msg .= "Subject: ".$request->subject."<br>";
+            $msg .= "Message: ".$request->message."<br>";
+            \Mail::to($agent->email)->send(new WebsiteMail($subject, $msg));
+        }
 
         return redirect()->route('message')->with('success', 'Message sent successfully');
+    }
+    public function message_reply($id)
+    {
+        $message = Message::where('id', $id)->first();
+        $replies = MessageReply::where('message_id', $id)->get();
+        return view('user.message.reply', compact('message', 'replies'));
+    }
+    public function message_reply_submit(Request $request, $m_id, $a_id)
+    {
+        $request->validate([
+            'reply' => 'required',
+        ]);
+
+        $reply = new MessageReply();
+        $reply->message_id = $m_id;
+        $reply->user_id = Auth::guard('web')->user()->id;
+        $reply->agent_id = $a_id;
+        $reply->sender = 'Customer';
+        $reply->reply = $request->reply;
+        $reply->save();
+
+        return redirect()->back()->with('success', 'Reply sent successfully');
+    }
+    public function message_delete($id)
+    {
+        // delete message
+        Message::where('id', $id)->delete();
+        return redirect()->back()->with('success', 'Message deleted successfully');
     }
 }
