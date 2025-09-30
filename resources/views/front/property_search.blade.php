@@ -16,7 +16,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 col-md-12">
-                    <form action="" method="get">
+                    <form action="{{ route('property_search') }}" method="get">
                     <div class="property-filter">
                         <div class="widget">
                             <h2>Find Anything</h2>
@@ -156,7 +156,9 @@
                     <div class="property">
                         <div class="container">
                             <div class="row">
-
+                                @if(count($properties) == 0)
+                                    <div class="alert alert-danger">No Property Found.</div>
+                                @else
                                 @foreach($properties as $item)
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="item">
@@ -217,6 +219,7 @@
                                 <div class="col-md-12 d-flex justify-content-center">
                                     {{ $properties->appends($_GET)->links() }}
                                 </div>
+                                @endif
                             </div>   
                         </div>
                     </div>

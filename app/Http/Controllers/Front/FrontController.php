@@ -18,6 +18,7 @@ class FrontController extends Controller
 {
     public function index()
     {
+
         // only featured and package is up to date property
         $properties = Property::where('status', 'Active')->where('is_featured', 'Yes')
             ->whereHas('agent', function ($query) {
@@ -44,7 +45,10 @@ class FrontController extends Controller
 
         $agents = Agent::where('status', 1)->orderBy('id', 'asc')->take(4)->get();
 
-        return view('front.home', compact('properties', 'locations', 'agents'));
+        $search_locations = Location::orderBy('name', 'asc')->get();
+        $search_types = Type::orderBy('name', 'asc')->get();
+
+        return view('front.home', compact('properties', 'locations', 'agents', 'search_locations', 'search_types'));
     }
     public function contact()
     {
@@ -207,7 +211,7 @@ class FrontController extends Controller
         if($request->amenity != null){
             $properties = $properties->whereRaw('FIND_IN_SET(?, amenities)', [$request->amenity]);
         }
-        $properties =  $properties->orderBy('id', 'asc')->paginate(4);
+        $properties =  $properties->orderBy('id', 'asc')->paginate(10);
 
 
         $locations = Location::orderBy('name', 'asc')->get();

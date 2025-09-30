@@ -15,43 +15,32 @@
                             </p>
                         </div>
                         <div class="search-section">
-                            <form action="" method="post">
+                            <form action="{{ route('property_search') }}" method="get">
                                 <div class="inner">
                                     <div class="row">
                                         <div class="col-lg-3">
                                             <div class="form-group">
-                                                <input type="text" name="" class="form-control"
-                                                    placeholder="Find Anything ...">
+                                                <input type="text" name="name" class="form-control"
+                                                    placeholder="Search By Name..." >
                                             </div>
                                         </div>
                                         <div class="col-lg-3">
                                             <div class="form-group">
-                                                <select name="" class="form-select select2">
-                                                    <option value="">Select Location</option>
-                                                    <option value="">Boston</option>
-                                                    <option value="">California</option>
-                                                    <option value="">Chicago</option>
-                                                    <option value="">Dallas</option>
-                                                    <option value="">Denver</option>
-                                                    <option value="">NewYork</option>
-                                                    <option value="">San Diago</option>
-                                                    <option value="">Washington</option>
-                                                    <option value="">Winconsin</option>
+                                                <select name="location" class="form-select select2">
+                                                    <option value=""> Select Location</option>
+                                                    @foreach($search_locations as $location)
+                                                        <option value="{{ $location->id }}" >{{ $location->name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-3">
                                             <div class="form-group">
-                                                <select name="" class="form-select select2">
+                                                <select name="type" class="form-select select2">
                                                     <option value="">Select Type</option>
-                                                    <option value="">Apartment</option>
-                                                    <option value="">Bungalow</option>
-                                                    <option value="">Cabin</option>
-                                                    <option value="">Condo</option>
-                                                    <option value="">Cottage</option>
-                                                    <option value="">Duplex</option>
-                                                    <option value="">Townhouse</option>
-                                                    <option value="">Villa</option>
+                                                    @foreach($search_types as $type)
+                                                        <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
