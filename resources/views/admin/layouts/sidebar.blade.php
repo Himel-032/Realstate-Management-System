@@ -47,6 +47,9 @@
                         <li class="{{ Request::is('admin/post/*') ? 'active' : '' }}"><a class="nav-link"
                                         href="{{ route('admin_post_index') }}"><i class="far fa-file"></i>
                                         <span>Blog Post</span></a></li>
+                        <li class="{{ Request::is('admin/faq/*') ? 'active' : '' }}"><a class="nav-link"
+                                        href="{{ route('admin_faq_index') }}"><i class="far fa-file"></i>
+                                        <span>FAQ</span></a></li>
 
                         <li class="{{ Request::is('admin/profile') ? 'active' : '' }}"><a class="nav-link"
                                 href="{{ route('admin_profile') }}"><i class="far fa-file"></i>

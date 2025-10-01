@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\AdminAgentController;
 use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Admin\AdminTestimonialController;
 use App\Http\Controllers\Admin\AdminPostController;
+use App\Http\Controllers\Admin\AdminFaqController;
 
 
 // front end
@@ -191,6 +192,14 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/post/edit/{id}', [AdminPostController::class, 'edit'])->name('admin_post_edit');
     Route::post('/post/update/{id}', [AdminPostController::class, 'update'])->name('admin_post_update');
     Route::get('/post/delete/{id}', [AdminPostController::class, 'delete'])->name('admin_post_delete');
+    // FAQ
+    Route::get('/faq/index', [AdminFaqController::class, 'index'])->name('admin_faq_index');
+    Route::get('/faq/create', [AdminFaqController::class, 'create'])->name('admin_faq_create');
+    Route::post('/faq/store', [AdminFaqController::class, 'store'])->name('admin_faq_store');
+    Route::get('/faq/edit/{id}', [AdminFaqController::class, 'edit'])->name('admin_faq_edit');
+    Route::post('/faq/update/{id}', [AdminFaqController::class, 'update'])->name('admin_faq_update');
+    Route::get('/faq/delete/{id}', [AdminFaqController::class, 'delete'])->name('admin_faq_delete');
+
 
 });
 
