@@ -14,6 +14,7 @@ use App\Models\Agent;
 use App\Models\User;
 use App\Models\Testimonial;
 use App\Models\Post;
+use App\Models\Faq;
 use App\Mail\Websitemail;
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
@@ -74,6 +75,11 @@ class FrontController extends Controller
     {
         $posts = Post::orderBy('id', 'desc')->paginate(12);
         return view('front.blog', compact('posts'));
+    }
+    public function faq()
+    {
+        $faqs = Faq::orderBy('id', 'asc')->get();
+        return view('front.faq', compact('faqs'));
     }
     public function post($slug)
     {
