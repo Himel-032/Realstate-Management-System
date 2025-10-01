@@ -7,7 +7,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header d-flex justify-content-between">
-                <h1>Faqs</h1>
+                <h1>FAQs</h1>
                 <div class="ml-auto">
                     <a href="{{ route('admin_faq_create') }}" class="btn btn-primary"><i class="fas fa-plus"></i>
                         Add

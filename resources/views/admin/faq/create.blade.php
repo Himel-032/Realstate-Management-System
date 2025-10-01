@@ -27,7 +27,7 @@
                                     </div>
                                     <div class="form-group mb-3">
                                         <label>Answer *</label>
-                                        <textarea class="form-control" name="answer">{{ old('answer') }}</textarea>
+                                        <textarea class="form-control h_200" name="answer" cols="30" rows="10">{{ old('answer') }}</textarea>
                                     </div>
 
                                     <div class="form-group">
