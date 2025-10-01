@@ -12,6 +12,7 @@ use App\Models\PropertyPhoto;
 use App\Models\PropertyVideo;
 use App\Models\Agent;
 use App\Models\User;
+use App\Models\Testimonial;
 use App\Mail\Websitemail;
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
@@ -57,7 +58,9 @@ class FrontController extends Controller
         $search_locations = Location::orderBy('name', 'asc')->get();
         $search_types = Type::orderBy('name', 'asc')->get();
 
-        return view('front.home', compact('properties', 'locations', 'agents', 'search_locations', 'search_types', 'wishlist_ids'));
+        $testimonials = Testimonial::orderBy('id', 'asc')->get();
+
+        return view('front.home', compact('properties', 'locations', 'agents', 'search_locations', 'search_types', 'wishlist_ids', 'testimonials'));
     }
     public function contact()
     {
