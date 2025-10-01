@@ -45,7 +45,55 @@ class AdminTestimonialController extends Controller
     }
     public function edit($id)
     {
-        $testimonial = Testimonial::find($id);
+        $testimonial = Testimonial::where('id', $id)->first();
         return view('admin.testimonial.edit', compact('testimonial'));
+    }
+    public function update(Request $request, $id)
+    {
+        // validation
+        $request->validate([
+            'name' => 'required',
+            'designation' => 'required',
+            'comment' => 'required',
+        ]);
+
+        // update data
+        $testimonial = Testimonial::where('id', $id)->first();
+        $testimonial->name = $request->name;
+        $testimonial->designation = $request->designation;
+        $testimonial->comment = $request->comment;
+        
+
+         // photo upload
+        if ($request->hasFile('photo')) {
+            $request->validate([
+                'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+            $final_name = 'testimonial_' . time() . '.' . $request->photo->extension();
+            // delete old photo
+            if ($testimonial->photo != '') {
+                unlink(public_path('uploads/' . $testimonial->photo));
+            }
+
+           
+            $request->photo->move(public_path('uploads'), $final_name);
+            $testimonial->photo = $final_name;
+        }
+
+        $testimonial->save();
+
+        return redirect()->route('admin_testimonial_index')->with('success', 'Testimonial updated successfully.');
+    }
+    public function delete($id)
+    {
+        $testimonial = Testimonial::where('id', $id)->first();
+
+        // delete photo
+        if ($testimonial->photo != '') {
+            unlink(public_path('uploads/' . $testimonial->photo));
+        }
+
+        $testimonial->delete();
+        return redirect()->route('admin_testimonial_index')->with('success', 'Testimonial deleted successfully.');
     }
 }
