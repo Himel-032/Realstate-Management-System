@@ -29,6 +29,8 @@ Route::get('/locations', [FrontController::class, 'locations'])->name('locations
 Route::get('/location/{slug}', [FrontController::class, 'location'])->name('location');
 Route::get('/agents', [FrontController::class, 'agents'])->name('agents');
 Route::get('/agent/detail/{id}',[FrontController::class,'agent'])->whereNumber('id')->name('agent');
+Route::get('/blog', [FrontController::class, 'blog'])->name('blog');
+Route::get('/post/{slug}', [FrontController::class, 'post'])->name('post');
 
 Route::get('/wishlist-add/{id}', [FrontController::class, 'wishlist_add'])->whereNumber('id')->name('wishlist_add');
 

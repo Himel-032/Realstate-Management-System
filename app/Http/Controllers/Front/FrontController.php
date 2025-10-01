@@ -13,6 +13,7 @@ use App\Models\PropertyVideo;
 use App\Models\Agent;
 use App\Models\User;
 use App\Models\Testimonial;
+use App\Models\Post;
 use App\Mail\Websitemail;
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
@@ -59,12 +60,31 @@ class FrontController extends Controller
         $search_types = Type::orderBy('name', 'asc')->get();
 
         $testimonials = Testimonial::orderBy('id', 'asc')->get();
+        $posts = Post::orderBy('id', 'desc')->take(3)->get();
 
-        return view('front.home', compact('properties', 'locations', 'agents', 'search_locations', 'search_types', 'wishlist_ids', 'testimonials'));
+        return view('front.home', compact('properties', 'locations',
+         'agents', 'search_locations', 'search_types', 'wishlist_ids',
+          'testimonials', 'posts'));
     }
     public function contact()
     {
         return view('front.contact');
+    }
+    public function blog()
+    {
+        $posts = Post::orderBy('id', 'desc')->paginate(12);
+        return view('front.blog', compact('posts'));
+    }
+    public function post($slug)
+    {
+        $post = Post::where('slug', $slug)->first();
+        if (!$post) {
+            return redirect()->back()->with('error', 'Post not found');
+        }
+        $new_view = $post->total_views + 1;
+        $post->total_views = $new_view;
+        $post->save();
+        return view('front.post', compact('post'));
     }
     public function select_user()
     {
