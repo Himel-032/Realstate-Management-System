@@ -102,7 +102,7 @@
                                         </a>
                                     @else
                                         <a href="{{ route('wishlist_add', $item->id) }}">
-                                            <i class="far fa-heart" style="color: pink;"></i> <!-- empty heart -->
+                                            <i class="far fa-heart"></i> <!-- empty heart -->
                                         </a>
                                     @endif
                                 </div>
@@ -287,7 +287,7 @@
                     <div class="testimonial-carousel owl-carousel">
                         @foreach($testimonials as $item)
                         <div class="item">
-                            <div class="photo">
+                            <div class="photo mb_25">
                                 <img src="{{ asset('uploads/' . $item->photo) }}" alt="" />
                             </div>
                             <div class="text">

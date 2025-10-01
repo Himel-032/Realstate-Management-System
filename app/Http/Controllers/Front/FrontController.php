@@ -237,7 +237,7 @@ class FrontController extends Controller
     public function wishlist_add($id)
     {
         if(!Auth::guard('web')->check()) {
-            return redirect()->route('front.login')->with('error', 'You must be logged in to add to wishlist');
+            return redirect()->route('login')->with('error', 'You must be logged in to add to wishlist');
         }
         // check if the property is already in wishlist
         $existingWishlist = Wishlist::where('user_id', Auth::guard('web')->user()->id)->where('property_id', $id)->first();
