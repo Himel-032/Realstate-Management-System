@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\AdminAmenityController;
 use App\Http\Controllers\Admin\AdminCustomerController;
 use App\Http\Controllers\Admin\AdminAgentController;
 use App\Http\Controllers\Admin\AdminOrderController;
+use App\Http\Controllers\Admin\AdminTestimonialController;
 
 
 // front end
@@ -172,6 +173,14 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/property/detail/{id}', [AdminPropertyController::class, 'detail'])->name('admin_property_detail');
     Route::get('/property/index/change-status/{id}', [AdminPropertyController::class, 'change_status'])->name('admin_property_change_status');
     Route::get('/property/delete/{id}', [AdminPropertyController::class, 'delete'])->name('admin_property_delete');
+
+    // Testimonial
+    Route::get('/testimonial/index', [AdminTestimonialController::class, 'index'])->name('admin_testimonial_index');
+    Route::get('/testimonial/create', [AdminTestimonialController::class, 'create'])->name('admin_testimonial_create');
+    Route::post('/testimonial/store', [AdminTestimonialController::class, 'store'])->name('admin_testimonial_store');
+    Route::get('/testimonial/edit/{id}', [AdminTestimonialController::class, 'edit'])->name('admin_testimonial_edit');
+    Route::post('/testimonial/update/{id}', [AdminTestimonialController::class, 'update'])->name('admin_testimonial_update');
+    Route::get('/testimonial/delete/{id}', [AdminTestimonialController::class, 'delete'])->name('admin_testimonial_delete');
 
 });
 

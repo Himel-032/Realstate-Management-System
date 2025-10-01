@@ -41,19 +41,11 @@
                         <li class="{{ Request::is('admin/agent/*') ? 'active' : '' }}"><a class="nav-link"
                                         href="{{ route('admin_agent_index') }}"><i class="far fa-file"></i>
                                         <span>Agent</span></a></li>
+                        <li class="{{ Request::is('admin/testimonial/*') ? 'active' : '' }}"><a class="nav-link"
+                                        href="{{ route('admin_testimonial_index') }}"><i class="far fa-file"></i>
+                                        <span>Testimonial</span></a></li>
 
-                        <!-- <li class=""><a class="nav-link" href="setting.html"><i class="fas fa-file"></i>
-                    <span>Setting</span></a></li>
-
-            <li class=""><a class="nav-link" href="form.html"><i class="fas fa-file"></i>
-                    <span>Form</span></a></li>
-
-            <li class=""><a class="nav-link" href="table.html"><i class="fas fa-file"></i>
-                    <span>Table</span></a></li>
-
-            <li class=""><a class="nav-link" href="invoice.html"><i class="fas fa-file"></i>
-                    <span>Invoice</span></a></li> -->
-                <li class="{{ Request::is('admin/profile') ? 'active' : '' }}"><a class="nav-link"
+                        <li class="{{ Request::is('admin/profile') ? 'active' : '' }}"><a class="nav-link"
                                 href="{{ route('admin_profile') }}"><i class="far fa-file"></i>
                                 <span>Edit Profile</span></a></li>
                 <li><a class="nav-link" href="{{ route('admin_logout') }}"><i class="fas fa-sign-out-alt"></i>
