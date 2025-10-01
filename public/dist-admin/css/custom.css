@@ -143,6 +143,11 @@ table tr td {
 .main-sidebar .sidebar-menu li ul.dropdown-menu li.active > a {
     font-weight: 400;
 }
+.main-sidebar .sidebar-menu li.active a span,
+.main-sidebar .sidebar-menu li.active a i {
+    color: #6777ef !important;
+    font-weight: 600;
+}
 
 .sub-sidebar {
     font-size: var(--font-size-common);
