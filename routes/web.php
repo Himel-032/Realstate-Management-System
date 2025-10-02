@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\AdminTestimonialController;
 use App\Http\Controllers\Admin\AdminPostController;
 use App\Http\Controllers\Admin\AdminFaqController;
 use App\Http\Controllers\Admin\AdminSubscriberController;
+use App\Http\Controllers\Admin\AdminPageController;
 
 
 // front end
@@ -212,6 +213,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/subscriber/index', [AdminSubscriberController::class, 'index'])->name('admin_subscriber_index');
     Route::get('/subscriber/delete/{id}', [AdminSubscriberController::class, 'delete'])->name('admin_subscriber_delete');
     Route::get('/subscriber/export', [AdminSubscriberController::class, 'export'])->name('admin_subscriber_export');
+    // Page
+    Route::get('/page/index', [AdminPageController::class, 'index'])->name('admin_page_index');
+    Route::post('/page/update', [AdminPageController::class, 'update'])->name('admin_page_update');
 
 
 });

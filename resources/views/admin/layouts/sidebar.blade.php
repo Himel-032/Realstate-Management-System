@@ -50,6 +50,10 @@
                         <li class="{{ Request::is('admin/faq/*') ? 'active' : '' }}"><a class="nav-link"
                                         href="{{ route('admin_faq_index') }}"><i class="far fa-file"></i>
                                         <span>FAQ</span></a></li>
+                        <li class="{{ Request::is('admin/page/*') ? 'active' : '' }}"><a class="nav-link"
+                                        href="{{ route('admin_page_index') }}"><i class="far fa-file"></i>
+                                        <span>Terms & Privacy</span></a></li>
+                        
                         <li class="{{ Request::is('admin/subscriber/*') ? 'active' : '' }}"><a class="nav-link"
                                         href="{{ route('admin_subscriber_index') }}"><i class="far fa-file"></i>
                                         <span>Subscriber</span></a></li>

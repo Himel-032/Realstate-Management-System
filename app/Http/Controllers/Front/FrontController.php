@@ -18,6 +18,7 @@ use App\Models\Faq;
 use App\Mail\Websitemail;
 use App\Models\Wishlist;
 use App\Models\Subscriber;
+use App\Models\Page;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -356,11 +357,13 @@ class FrontController extends Controller
 
     public function terms()
     {
-        return view('front.terms');
+        $page = Page::where('id', 1)->first();
+        return view('front.terms', compact('page'));
     }
     public function privacy()
     {
-        return view('front.privacy');
+        $page = Page::where('id', 1)->first();
+        return view('front.privacy', compact('page'));
     }
 
 }
