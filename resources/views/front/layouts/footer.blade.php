@@ -32,20 +32,20 @@
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <div class="right">
-                            34 Antiger Lane, USA, 12937
+                            Dhaka-1345, Bangladesh
                         </div>
-                    </div>
-                    <div class="list-item">
-                        <div class="left">
-                            <i class="fas fa-phone"></i>
-                        </div>
-                        <div class="right">contact@arefindev.com</div>
                     </div>
                     <div class="list-item">
                         <div class="left">
                             <i class="fas fa-envelope"></i>
                         </div>
-                        <div class="right">122-222-1212</div>
+                        <div class="right">himel@gmail.com</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="left">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="right">01966-123455</div>
                     </div>
                     <ul class="social">
                         <li>
@@ -53,9 +53,6 @@
                         </li>
                         <li>
                             <a href=""><i class="fab fa-twitter"></i></a>
-                        </li>
-                        <li>
-                            <a href=""><i class="fab fa-pinterest-p"></i></a>
                         </li>
                         <li>
                             <a href=""><i class="fab fa-linkedin-in"></i></a>
@@ -74,9 +71,11 @@
                         To get the latest news from our website, please
                         subscribe us here:
                     </p>
-                    <form action="" method="post">
+                    <form action="{{ route('subscriber_send_email') }}" method="post" class="form_subscribe_ajax">
+                        @csrf
                         <div class="form-group">
-                            <input type="text" name="" class="form-control">
+                            <input type="text" name="email" class="form-control" placeholder="Enter your email address">
+                            <span class="text-danger error-text email_error"></span>
                         </div>
                         <div class="form-group">
                             <input type="submit" class="btn btn-primary" value="Subscribe Now">
@@ -109,3 +108,43 @@
         </div>
     </div>
 </div>
+<div id="loader"></div>
+<script>
+    (function ($) {
+        $(".form_subscribe_ajax").on('submit', function (e) {
+            e.preventDefault();
+            $('#loader').show();
+            var form = this;
+            $.ajax({
+                url: $(form).attr('action'),
+                method: $(form).attr('method'),
+                data: new FormData(form),
+                processData: false,
+                dataType: 'json',
+                contentType: false,
+                beforeSend: function () {
+                    $(form).find('span.error-text').text('');
+                },
+                success: function (data) {
+                    $('#loader').hide();
+                    if (data.code == 0) {
+                        $.each(data.error_message, function (prefix, val) {
+                            $(form).find('span.' + prefix + '_error').text(val[0]);
+                        });
+                    }
+                    else if (data.code == 1) {
+                        $(form)[0].reset();
+                        iziToast.success({
+                            message: data.success_message,
+                            position: 'topRight',
+                            timeout: 5000,
+                            progressBarColor: '#00FF00',
+                        });
+                    }
+
+                }
+            });
+        });
+    })(jQuery);
+</script>
+

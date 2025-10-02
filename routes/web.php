@@ -38,6 +38,10 @@ Route::get('/wishlist-add/{id}', [FrontController::class, 'wishlist_add'])->wher
 
 Route::get('/property-search', [FrontController::class, 'property_search'])->name('property_search');
 
+// subscription
+Route::post('/subscriber/send-email', [FrontController::class, 'subscriber_send_email'])->name('subscriber_send_email');
+Route::get('/subscriber/verify/{email}/{token}', [FrontController::class, 'subscriber_verify'])->name('subscriber_verify');
+
 //User 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');

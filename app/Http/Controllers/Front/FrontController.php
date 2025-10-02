@@ -17,6 +17,7 @@ use App\Models\Post;
 use App\Models\Faq;
 use App\Mail\Websitemail;
 use App\Models\Wishlist;
+use App\Models\Subscriber;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -276,4 +277,39 @@ class FrontController extends Controller
         $obj->save();
         return redirect()->back()->with('success', 'Property added to wishlist');
     }
+    public function subscriber_send_email(Request $request)
+    {
+        $validator = \Validator::make($request->all(), [
+            'email' => ['required','email', 'unique:subscribers,email']
+        ]);
+
+        if (!$validator->passes()) {
+            return response()->json(['code' => 0, 'error_message' => $validator->errors()->toArray()]);
+        } else {
+
+            $token = hash('sha256', time());
+
+            $obj = new Subscriber();
+            $obj->email = $request->email;
+            $obj->token = $token;
+            $obj->status = 0;
+            $obj->save();
+
+            $verification_link = url('subscriber/verify/' . $request->email . '/' . $token);
+
+            // Send email
+            $subject = 'Subscriber Verification';
+            $message = 'Please click on the link below to confirm subscription:<br>';
+            $message .= '<a href="' . $verification_link . '">';
+            $message .= $verification_link;
+            $message .= '</a>';
+
+            \Mail::to($request->email)->send(new Websitemail($subject, $message));
+
+            return response()->json(['code' => 1, 'success_message' => 'Please check your email to confirm subscription']);
+        }
+    }
+
+   
+
 }
