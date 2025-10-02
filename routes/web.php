@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\AdminSubscriberController;
 // front end
 Route::get('/', [FrontController::class, 'index'])->name('home');
 Route::get('/contact', [FrontController::class, 'contact'])->name('contact');
+Route::post('/contact-submit', [FrontController::class, 'contact_submit'])->name('contact_submit');
 Route::get('/select-user', [FrontController::class,'select_user'])->name('select_user');
 Route::get('/pricing', [FrontController::class, 'pricing'])->name('pricing');
 Route::get('/property/{slug}', [FrontController::class, 'property_detail'])->name('property_detail');

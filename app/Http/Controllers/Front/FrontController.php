@@ -72,6 +72,32 @@ class FrontController extends Controller
     {
         return view('front.contact');
     }
+    public function contact_submit(Request $request)
+    {
+        $validator = \Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email'],
+            'message' => ['required']
+        ]);
+
+        if (!$validator->passes()) {
+            return response()->json(['code' => 0, 'error_message' => $validator->errors()->toArray()]);
+        } else {
+
+            
+
+            // Send email
+            $subject = 'Contact Form Message';
+            $message = 'You have received a new message from the contact form:<br>';
+            $message .= '<b>Name:</b> ' . $request->name . '<br>';
+            $message .= '<b>Email:</b> ' . $request->email . '<br>';
+            $message .= '<b>Message:</b> ' . nl2br($request->message);
+
+            \Mail::to(env('MAIL_FROM_ADDRESS'))->send(new Websitemail($subject, $message));
+
+            return response()->json(['code' => 1, 'success_message' => 'Your message has been sent successfully']);
+        }
+    }
     public function blog()
     {
         $posts = Post::orderBy('id', 'desc')->paginate(12);
