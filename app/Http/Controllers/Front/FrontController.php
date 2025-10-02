@@ -310,6 +310,22 @@ class FrontController extends Controller
         }
     }
 
-   
+    public function subscriber_verify($email, $token)
+    {
+        $subscriber_data = Subscriber::where('email', $email)->where('token', $token)->first();
+
+        if ($subscriber_data) {
+
+            $subscriber_data->token = '';
+            $subscriber_data->status = 1;
+            $subscriber_data->update();
+
+            return redirect()->route('home')->with('success', 'Your subscription is verified successfully!');
+
+        } else {
+            return redirect()->route('home');
+        }
+
+    }
 
 }
