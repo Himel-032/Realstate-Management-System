@@ -92,7 +92,7 @@
         <div class="row">
             <div class="col-lg-6 col-md-6">
                 <div class="copyright">
-                    Copyright {{ date('Y') }}, The-Home. All Rights Reserved.
+                    Copyright {{ date('Y') }}, Real-State. All Rights Reserved.
                 </div>
             </div>
             <div class="col-lg-6 col-md-6">
@@ -100,7 +100,7 @@
                     <ul>
                         <li><a href="{{ route('terms') }}">Terms of Use</a></li>
                         <li>
-                            <a href="privacy.html">Privacy Policy</a>
+                            <a href="{{ route('privacy') }}">Privacy Policy</a>
                         </li>
                     </ul>
                 </div>
