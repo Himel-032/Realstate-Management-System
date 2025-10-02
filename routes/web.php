@@ -35,6 +35,8 @@ Route::get('/agent/detail/{id}',[FrontController::class,'agent'])->whereNumber('
 Route::get('/blog', [FrontController::class, 'blog'])->name('blog');
 Route::get('/post/{slug}', [FrontController::class, 'post'])->name('post');
 Route::get('/faq', [FrontController::class, 'faq'])->name('faq');
+Route::get('/terms', [FrontController::class, 'terms'])->name('terms');
+Route::get('/privacy', [FrontController::class, 'privacy'])->name('privacy');
 
 Route::get('/wishlist-add/{id}', [FrontController::class, 'wishlist_add'])->whereNumber('id')->name('wishlist_add');
 

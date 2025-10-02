@@ -354,4 +354,13 @@ class FrontController extends Controller
 
     }
 
+    public function terms()
+    {
+        return view('front.terms');
+    }
+    public function privacy()
+    {
+        return view('front.privacy');
+    }
+
 }
