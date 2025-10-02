@@ -8,11 +8,10 @@
         <section class="section">
             <div class="section-header d-flex justify-content-between">
                 <h1>Subscribers</h1>
-                <!-- <div class="ml-auto">
-                    <a href="" class="btn btn-primary"><i class="fas fa-plus"></i>
-                        Add
-                        New</a>
-                </div> -->
+                <div class="ml-auto">
+                    <a href="{{ route('admin_subscriber_export') }}" class="btn btn-primary"><i class="fas fa-download"></i>
+                     Export Subscribers as CSV</a>
+                </div>
             </div>
             <div class="section-body">
                 <div class="row">

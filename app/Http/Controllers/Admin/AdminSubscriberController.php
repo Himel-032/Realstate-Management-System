@@ -24,5 +24,36 @@ class AdminSubscriberController extends Controller
         }
     }
 
-    
+    public function export()
+    {
+        $fileName = 'subscribers.csv';
+        $subscribers = Subscriber::where('status', 1)->orderBy('id', 'asc')->get();
+
+        $headers = array(
+            "Content-type" => "text/csv",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
+        );
+
+        $columns = array('ID', 'Email', 'Created At');
+
+        $callback = function () use ($subscribers, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+
+            foreach ($subscribers as $subscriber) {
+                $row['ID']  = $subscriber->id;
+                $row['Email']    = $subscriber->email;
+                $row['Created At']    = $subscriber->created_at->format('d M, Y');
+
+                fputcsv($file, array($row['ID'], $row['Email'], $row['Created At']));
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 }
