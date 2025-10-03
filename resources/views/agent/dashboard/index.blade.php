@@ -27,19 +27,19 @@
                     <div class="row box-items">
                         <div class="col-md-4">
                             <div class="box1">
-                                <h4>12</h4>
+                                <h4>{{ $total_active_properties }}</h4>
                                 <p>Active Properties</p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="box2">
-                                <h4>3</h4>
+                                <h4>{{ $total_pending_properties }}</h4>
                                 <p>Pending Properties</p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="box3">
-                                <h4>5</h4>
+                                <h4>{{ $total_featured_properties }}</h4>
                                 <p>Featured Properties</p>
                             </div>
                         </div>
@@ -52,39 +52,31 @@
                                 <tr>
                                     <th>SL</th>
                                     <th>Name</th>
-                                    <th>Category</th>
+                                    <th>Type</th>
+                                    <th>Purpose</th>
                                     <th>Location</th>
+                                    <th>Price</th>
                                     <th>Status</th>
-                                    <th>Action</th>
+                                    <th>Creation Date</th>
                                 </tr>
+                                @foreach($recent_properties as $property)
                                 <tr>
-                                    <td>1</td>
-                                    <td>1375 Stanley Avenue</td>
-                                    <td>Villa</td>
-                                    <td>New York</td>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $property->name }}</td>
+                                    <td>{{ $property->type->name }}</td>
+                                    <td>{{ $property->purpose }}</td>
+                                    <td>{{ $property->location->name }}</td>
+                                    <td>${{ $property->price }}</td>
                                     <td>
+                                        @if($property->status == 'Active')
                                         <span class="badge bg-success">Active</span>
-                                    </td>
-                                    <td>
-                                        <a href="" class="btn btn-warning btn-sm text-white"><i class="fas fa-edit"></i></a>
-                                        <a href="" class="btn btn-danger btn-sm"
-                                            onClick="return confirm('Are you sure?');"><i class="fas fa-trash-alt"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>3780 Ash Avenue</td>
-                                    <td>Condo</td>
-                                    <td>Boston</td>
-                                    <td>
+                                        @else
                                         <span class="badge bg-danger">Pending</span>
+                                        @endif
                                     </td>
-                                    <td>
-                                        <a href="" class="btn btn-warning btn-sm text-white"><i class="fas fa-edit"></i></a>
-                                        <a href="" class="btn btn-danger btn-sm"
-                                            onClick="return confirm('Are you sure?');"><i class="fas fa-trash-alt"></i></a>
-                                    </td>
+                                    <td>{{ $property->created_at->format('d M, Y') }}</td>
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
