@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\AdminPostController;
 use App\Http\Controllers\Admin\AdminFaqController;
 use App\Http\Controllers\Admin\AdminSubscriberController;
 use App\Http\Controllers\Admin\AdminPageController;
+use App\Http\Controllers\Admin\AdminSettingController;
 
 
 // front end
@@ -216,6 +217,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     // Page
     Route::get('/page/index', [AdminPageController::class, 'index'])->name('admin_page_index');
     Route::post('/page/update', [AdminPageController::class, 'update'])->name('admin_page_update');
+    // Setting
+    Route::get('/setting/index', [AdminSettingController::class, 'index'])->name('admin_setting_index');
+    Route::post('/setting/update', [AdminSettingController::class, 'update'])->name('admin_setting_update');
 
 
 });

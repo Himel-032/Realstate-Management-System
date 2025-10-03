@@ -23,7 +23,7 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td class="w-50">
-                                                                    <img src="{{ asset('uploads/real_state.png') }}" alt="" class="w_150">
+                                                                    <img src="{{ asset('uploads/'. $global_setting->logo) }}" alt="" class="w_150">
                                                                 </td>
                                                                 <td class="w-50">
                                                                     <div class="invoice-top-right">

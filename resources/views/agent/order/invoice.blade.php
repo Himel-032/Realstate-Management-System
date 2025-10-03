@@ -1,7 +1,7 @@
 @extends('front.layouts.master')
 
 @section('main_content')
-    <div class="page-top" style="background-image: url({{ asset('uploads/banner.jpg') }})">
+    <div class="page-top" style="background-image: url({{ asset('uploads/' . $global_setting->banner) }})">
         <div class="bg"></div>
         <div class="container">
             <div class="row">
@@ -29,7 +29,7 @@
                                             <tbody>
                                                 <tr>
                                                     <td class="w-50">
-                                                        <img src="{{ asset('uploads/real_state.png') }}" alt=""
+                                                        <img src="{{ asset('uploads/'. $global_setting->logo) }}" alt=""
                                                             class="w-100">
                                                     </td>
                                                     <td class="w-50">
