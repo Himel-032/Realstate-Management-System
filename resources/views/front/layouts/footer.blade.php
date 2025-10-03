@@ -5,10 +5,10 @@
                 <div class="item">
                     <h2 class="heading">Important Links</h2>
                     <ul class="useful-links">
-                        <li><a href="">Home</a></li>
-                        <li><a href="">Properties</a></li>
-                        <li><a href="">Agents</a></li>
-                        <li><a href="">Blog</a></li>
+                        <li><a href="{{ route('home') }}">Home</a></li>
+                        <li><a href="{{ route('property_search') }}">Properties</a></li>
+                        <li><a href="{{ route('agents') }}">Agents</a></li>
+                        <li><a href="{{ route('blog') }}">Blog</a></li>
                     </ul>
                 </div>
             </div>
@@ -16,10 +16,14 @@
                 <div class="item">
                     <h2 class="heading">Locations</h2>
                     <ul class="useful-links">
-                        <li><a href="">New York</a></li>
-                        <li><a href="">Boston</a></li>
-                        <li><a href="">Orlanco</a></li>
-                        <li><a href="">Los Angeles</a></li>
+                        @php
+                        $locations = \App\Models\Location::take(4)->get();
+                        @endphp
+                        @foreach ($locations as $location)
+                        <li><a href="{{ route('location', $location->slug) }}">{{ $location->name }}</a></li>
+                        
+                        @endforeach
+                        
                     </ul>
                 </div>
             </div>
@@ -32,33 +36,33 @@
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <div class="right">
-                            Dhaka-1345, Bangladesh
+                            {{ $global_setting->footer_address }}
                         </div>
                     </div>
                     <div class="list-item">
                         <div class="left">
                             <i class="fas fa-envelope"></i>
                         </div>
-                        <div class="right">himel@gmail.com</div>
+                        <div class="right">{{ $global_setting->footer_email }}</div>
                     </div>
                     <div class="list-item">
                         <div class="left">
                             <i class="fas fa-phone"></i>
                         </div>
-                        <div class="right">01966-123455</div>
+                        <div class="right">{{ $global_setting->footer_phone }}</div>
                     </div>
                     <ul class="social">
                         <li>
-                            <a href=""><i class="fab fa-facebook-f"></i></a>
+                            <a href="{{ $global_setting->footer_facebook }}"><i class="fab fa-facebook-f"></i></a>
                         </li>
                         <li>
-                            <a href=""><i class="fab fa-twitter"></i></a>
+                            <a href="{{ $global_setting->footer_twitter }}"><i class="fab fa-twitter"></i></a>
                         </li>
                         <li>
-                            <a href=""><i class="fab fa-linkedin-in"></i></a>
+                            <a href="{{ $global_setting->footer_linkedin }}"><i class="fab fa-linkedin-in"></i></a>
                         </li>
                         <li>
-                            <a href=""><i class="fab fa-instagram"></i></a>
+                            <a href="{{ $global_setting->footer_instagram }}"><i class="fab fa-instagram"></i></a>
                         </li>
                     </ul>
                 </div>
@@ -92,7 +96,7 @@
         <div class="row">
             <div class="col-lg-6 col-md-6">
                 <div class="copyright">
-                    Copyright {{ date('Y') }}, Real-State. All Rights Reserved.
+                    {{ $global_setting->footer_copyright }}
                 </div>
             </div>
             <div class="col-lg-6 col-md-6">
