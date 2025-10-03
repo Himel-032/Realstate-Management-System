@@ -7,13 +7,25 @@ use Illuminate\Http\Request;
 use Auth;
 use Hash;
 use App\Models\Admin;
+use App\Models\Package;
+use App\Models\Order;
+use App\Models\Property;
+use App\Models\Subscriber;
+use App\Models\User;
+use App\Models\Agent;
 use App\Mail\WebsiteMail;
 
 class AdminController extends Controller
 {
     public function dashboard()
     {
-        return view('admin.dashboard.index');
+        $total_packages = Package::count();
+        $completed_orders = Order::where('status', 'completed')->count();
+        $total_active_properties = Property::where('status', 'Active')->count();
+        $total_subscribers = Subscriber::where('status', 1)->count();
+        $total_active_customers = User::where('status', 1)->where('status', 1)->count();
+        $total_active_agents = Agent::where('status', 1)->count();
+        return view('admin.dashboard.index', compact('total_packages', 'completed_orders', 'total_active_properties', 'total_subscribers', 'total_active_customers', 'total_active_agents'));
     }
     public function login()
     {

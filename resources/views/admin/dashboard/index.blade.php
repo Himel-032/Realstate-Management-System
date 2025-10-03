@@ -12,14 +12,14 @@
                 <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-primary">
-                            <i class="far fa-user"></i>
+                            <i class="far fa-file"></i>
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Total News Categories</h4>
+                                <h4>Total Packages</h4>
                             </div>
                             <div class="card-body">
-                                12
+                                {{ $total_packages }}
                             </div>
                         </div>
                     </div>
@@ -27,14 +27,14 @@
                 <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-danger">
-                            <i class="fas fa-book-open"></i>
+                            <i class="far fa-file"></i>
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Total News</h4>
+                                <h4>Total Completed Orders</h4>
                             </div>
                             <div class="card-body">
-                                122
+                                {{ $completed_orders }}
                             </div>
                         </div>
                     </div>
@@ -42,14 +42,59 @@
                 <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-warning">
-                            <i class="fas fa-bullhorn"></i>
+                            <i class="far fa-file"></i>
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Total Users</h4>
+                                <h4>Total Active Properties</h4>
                             </div>
                             <div class="card-body">
-                                45
+                                {{ $total_active_properties }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                    <div class="card card-statistic-1">
+                        <div class="card-icon bg-success">
+                            <i class="far fa-file"></i>
+                        </div>
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>Total Active Subscribers</h4>
+                            </div>
+                            <div class="card-body">
+                                {{ $total_subscribers }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                    <div class="card card-statistic-1">
+                        <div class="card-icon bg-primary">
+                            <i class="far fa-file"></i>
+                        </div>
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>Total Active Customers</h4>
+                            </div>
+                            <div class="card-body">
+                                {{ $total_active_customers }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                    <div class="card card-statistic-1">
+                        <div class="card-icon bg-danger">
+                            <i class="far fa-file"></i>
+                        </div>
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>Total Active Agents</h4>
+                            </div>
+                            <div class="card-body">
+                                {{ $total_active_agents }}
                             </div>
                         </div>
                     </div>
