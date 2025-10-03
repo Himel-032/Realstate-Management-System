@@ -25,16 +25,23 @@
                     <p>See all the statistics at a glance:</p>
 
                     <div class="row box-items">
-                        
+
                         <div class="col-md-4">
                             <div class="box1">
-                                <h4>3</h4>
-                                <p>Messages</p>
+                                <h4>{{ $total_messages }}</h4>
+                                <p>Total Messages</p>
                             </div>
                         </div>
+                                                <div class="col-md-4">
+                                                    <div class="box2">
+                                                        <h4>{{ $total_wishlists }}</h4>
+                                                        <p>Total Wishlists Item</p>
+                                                    </div>
+                                                </div>
                     </div>
-
                     
+
+
                 </div>
             </div>
         </div>
