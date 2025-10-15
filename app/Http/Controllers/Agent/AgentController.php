@@ -368,7 +368,7 @@ class AgentController extends Controller
             $message .= 'Regards, <br>';
             $message .= env('APP_NAME');
 
-            \Mail::to($admin_data->email)->send(new WebsiteMail($subject, $message));
+            // \Mail::to($admin_data->email)->send(new WebsiteMail($subject, $message));
             session()->forget('package_id');
 
             return redirect()->route('agent_order')->with('success', 'Payment successful. Your order  has been placed.');
@@ -478,7 +478,7 @@ class AgentController extends Controller
             $message .= 'Regards, <br>';
             $message .= env('APP_NAME');
 
-            \Mail::to($admin_data->email)->send(new WebsiteMail($subject, $message));
+            // \Mail::to($admin_data->email)->send(new WebsiteMail($subject, $message));
 
             session()->forget('package_id');
 
