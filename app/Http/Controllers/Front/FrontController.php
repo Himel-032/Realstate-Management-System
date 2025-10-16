@@ -270,7 +270,7 @@ class FrontController extends Controller
         if($request->amenity != null){
             $properties = $properties->whereRaw('FIND_IN_SET(?, amenities)', [$request->amenity]);
         }
-        $properties =  $properties->orderBy('id', 'asc')->paginate(10);
+        $properties =  $properties->orderBy('id', 'asc')->paginate(6);
 
 
         $locations = Location::orderBy('name', 'asc')->get();
