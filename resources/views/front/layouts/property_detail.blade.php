@@ -136,7 +136,7 @@
                                                                         @endif
                                                                     </div>
                                                                     <div class="price">${{ $item->price }}</div>
-                                                                    <div class="wishlist"><a href=""><i class="far fa-heart"></i></a></div>
+                                                                    <!-- <div class="wishlist"><a href=""><i class="far fa-heart"></i></a></div> -->
                                                                 </div>
                                                                 <div class="text">
                                                                     <h3><a href="{{ route('property_detail', $item->slug) }}">{{ $item->name }}</a></h3>

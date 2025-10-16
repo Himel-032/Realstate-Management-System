@@ -37,9 +37,7 @@ class FrontController extends Controller
         $properties = Property::where('status', 'Active')->where('is_featured', 'Yes')
             ->whereHas('agent', function ($query) {
                 $query->whereHas('orders', function ($q) {
-                    $q->where('currently_active', 1)
-                        ->where('status', 'Completed')
-                        ->where('expire_date', '>=', now());
+                    $q->where('status', 'Completed');
                 });
             })
             ->orderBy('id', 'asc')->take(3)->get();
@@ -172,9 +170,7 @@ class FrontController extends Controller
                 $query->where('status', 'Active')
                     ->whereHas('agent', function ($q) {
                         $q->whereHas('orders', function ($qq) {
-                            $qq->where('currently_active', 1)
-                                ->where('status', 'Completed')
-                                ->where('expire_date', '>=', now());
+                            $qq->where('status', 'Completed');
                         });
                     });
             }
@@ -196,8 +192,7 @@ class FrontController extends Controller
             ->where('status', 'Active')
             ->whereHas('agent', function ($query) {
                 $query->whereHas('orders', function ($q) {
-                    $q->where('status', 'Completed')
-                        ->where('expire_date', '>=', now());
+                    $q->where('status', 'Completed');
                 });
             })
             ->orderBy('id', 'asc')->paginate(6);
@@ -222,8 +217,7 @@ class FrontController extends Controller
             ->where('status', 'Active')
             ->whereHas('agent', function ($query) {
                 $query->whereHas('orders', function ($q) {
-                    $q->where('status', 'Completed')
-                        ->where('expire_date', '>=', now());
+                    $q->where('status', 'Completed');
                 });
             })
             ->orderBy('id', 'asc')->take(3)->paginate(6);
@@ -246,8 +240,7 @@ class FrontController extends Controller
             ->whereHas('agent', function ($query) {
                 $query->whereHas('orders', function ($q) {
                     $q->where('currently_active', 1)
-                        ->where('status', 'Completed')
-                        ->where('expire_date', '>=', now());
+                        ->where('status', 'Completed');
                 });
             });
         if($request->name != null){

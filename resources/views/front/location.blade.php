@@ -43,7 +43,7 @@
                                 @endif
                             </div>
                             <div class="price">${{ $property->price }}</div>
-                            <div class="wishlist"><a href=""><i class="far fa-heart"></i></a></div>
+                            <!-- <div class="wishlist"><a href=""><i class="far fa-heart"></i></a></div> -->
                         </div>
                         <div class="text">
                             <h3><a href="{{ route('property_detail', $property->slug) }}">{{ $property->name }}</a></h3>
