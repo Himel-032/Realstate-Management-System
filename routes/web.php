@@ -21,6 +21,17 @@ use App\Http\Controllers\Admin\AdminSubscriberController;
 use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\AdminSettingController;
 
+// use App\Mail\TestMail;  // GMAIL smtp test
+// Route::get('/send-test-mail', function () {
+//     $toEmail = 'himel19242@gmail.com';
+//     $subject = 'Test Email from Laravel';
+//     $body = 'Hello! This is a test email sent using Gmail SMTP and Laravel Mailable class.';
+
+//     Mail::to($toEmail)->send(new TestMail($subject, $body));
+
+//     return 'Test email sent successfully!';
+// });
+
 
 // front end
 Route::get('/', [FrontController::class, 'index'])->name('home');

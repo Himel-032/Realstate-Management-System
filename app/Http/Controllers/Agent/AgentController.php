@@ -19,6 +19,9 @@ use App\Models\PropertyVideo;
 use App\Models\Message;
 use App\Models\MessageReply;
 use App\Mail\WebsiteMail;
+// use App\Mail\TestMail;
+// use Illuminate\Support\Facades\Mail;
+
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class AgentController extends Controller
@@ -44,7 +47,7 @@ class AgentController extends Controller
         // Validate input, create user, etc.
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|max:255|email|unique:users,email',
+            'email' => 'required|max:255|email|unique:agents,email',
             'company' => 'required|string|max:255',
             'designation' => 'required|string|max:255',
             'password' => 'required|min:6',
@@ -66,7 +69,8 @@ class AgentController extends Controller
         $subject = "Registration Verification";
         $message = 'Click the link to verify your email: <br><a href="' . $link . '">' . $link . '</a>';
 
-        \Mail::to($request->email)->send(new WebsiteMail($subject, $message));
+       \Mail::to($request->email)->send(new WebsiteMail($subject, $message));
+        // Mail::to($request->email)->send(new TestMail($subject, $message));
 
         return redirect()->back()->with('success', 'Registration successful! Please check your email to verify your account.');
     }
@@ -140,6 +144,8 @@ class AgentController extends Controller
         $message = 'Click the link to reset your password: <br>';
         $message .= '<a href="' . $link . '">' . $link . '</a>';
         \Mail::to($request->email)->send(new WebsiteMail($subject, $message));
+
+        // Mail::to($request->email)->send(new TestMail($subject, $message));
         return redirect()->back()->with('success', 'Reset password link sent to your email');
 
     }
@@ -346,6 +352,7 @@ class AgentController extends Controller
             $message .= 'Best regards,<br>';
             $message .= env('APP_NAME');
             \Mail::to(Auth::guard('agent')->user()->email)->send(new WebsiteMail($subject, $message));
+            // Mail::to(Auth::guard('agent')->user()->email)->send(new TestMail($subject, $message));
 
 
             // sending mail to admin
@@ -457,6 +464,7 @@ class AgentController extends Controller
             $message .= 'Best regards,<br>';
             $message .= env('APP_NAME');
             \Mail::to(Auth::guard('agent')->user()->email)->send(new WebsiteMail($subject, $message));
+            // Mail::to(Auth::guard('agent')->user()->email)->send(new TestMail($subject, $message));
 
             // sending mail to admin
 
