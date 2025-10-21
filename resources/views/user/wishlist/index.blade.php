@@ -49,25 +49,9 @@
                                                 </a>
                                             </td>
                                             <td>
-                                                <!-- <a href="{{ route('wishlist_delete', $item->id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure ?')">
-                                                    <i class="fas fa-trash"></i>
-                                                </a> -->
-                                                <!-- Trigger link -->
-                                                <a href="#confirmModal{{ $item->id }}" class="btn btn-danger btn-sm">
+                                                <a href="{{ route('wishlist_delete', $item->id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure ?')">
                                                     <i class="fas fa-trash"></i>
                                                 </a>
-
-                                                <!-- Modal -->
-                                                <div id="confirmModal{{ $item->id }}" class="modall">
-                                                    <div class="modall-content">
-                                                        <h3>Are you sure?</h3>
-                                                        <p>This action cannot be undone.</p>
-                                                        <div class="buttons">
-                                                            <a href="{{ route('wishlist_delete', $item->id) }}" class="btn btn-danger">Yes, Delete</a>
-                                                            <a href="#" class="btn btn-secondary">Cancel</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach
