@@ -25,7 +25,7 @@ class AdminLocationController extends Controller
             'name' => 'required',
             //valid slug needed
             'slug' => ['required','unique:locations,slug','regex:/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/'],
-            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
 
         ]);
 
@@ -65,7 +65,7 @@ class AdminLocationController extends Controller
         $location = Location::where('id', $id)->first();
         if($request->hasFile('photo')){
             $request->validate([
-                'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:4096',
             ]);
             $final_name = 'location_'.time(). '.'.$request->photo->extension();
             //unlink the old photo
