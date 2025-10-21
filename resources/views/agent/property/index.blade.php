@@ -71,8 +71,11 @@
 
                                         <td>
                                             <a href="{{ route('agent_property_edit', $property->id) }}" class="btn btn-warning btn-sm text-white"><i class="fas fa-edit"></i></a>
-                                            <a href="{{ route('agent_property_delete', $property->id) }}" class="btn btn-danger btn-sm" onClick="return confirm('Are you sure?');"><i
-                                                    class="fas fa-trash-alt"></i></a>
+                                            <!-- <a href="{{ route('agent_property_delete', $property->id) }}" class="btn btn-danger btn-sm" onClick="return confirm('Are you sure?');"><i
+                                                    class="fas fa-trash-alt"></i></a> -->
+                                            <a href="#confirmModal{{ $property->id }}" class="btn btn-danger btn-sm">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -81,6 +84,17 @@
                         </table>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div id="confirmModal{{ $property->id }}" class="modall">
+        <div class="modall-content">
+            <h3>Are you sure?</h3>
+            <p>This action cannot be undone.</p>
+            <div class="buttons">
+                <a href="{{ route('agent_property_delete', $property->id) }}" class="btn btn-danger">Yes, Delete</a>
+                <a href="#" class="btn btn-secondary">Cancel</a>
             </div>
         </div>
     </div>
