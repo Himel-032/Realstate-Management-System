@@ -50,6 +50,7 @@ Route::get('/post/{slug}', [FrontController::class, 'post'])->name('post');
 Route::get('/faq', [FrontController::class, 'faq'])->name('faq');
 Route::get('/terms', [FrontController::class, 'terms'])->name('terms');
 Route::get('/privacy', [FrontController::class, 'privacy'])->name('privacy');
+Route::get('/weather', [FrontController::class, 'weather'])->name('weather');
 
 Route::get('/wishlist-add/{id}', [FrontController::class, 'wishlist_add'])->whereNumber('id')->name('wishlist_add');
 

@@ -2,7 +2,7 @@
     <!-- Menu For Mobile Device -->
     <div class="mobile-nav">
         <a href="{{ route('home') }}" class="logo">
-            <img src="{{ asset('uploads/'. $global_setting->logo) }}" alt="">
+            <img src="{{ asset('uploads/' . $global_setting->logo) }}" alt="">
         </a>
     </div>
 
@@ -11,7 +11,7 @@
         <div class="container">
             <nav class="navbar navbar-expand-md navbar-light">
                 <a class="navbar-brand" href="{{ route('home') }}">
-                    <img src="{{ asset('uploads/'. $global_setting->logo) }}" alt="">
+                    <img src="{{ asset('uploads/' . $global_setting->logo) }}" alt="">
                 </a>
                 <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto">
@@ -32,6 +32,9 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('faq') }}" class="nav-link">FAQ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('weather') }}" class="nav-link">Weather</a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('blog') }}" class="nav-link">Blog</a>

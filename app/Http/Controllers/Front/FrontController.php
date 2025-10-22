@@ -20,6 +20,7 @@ use App\Models\Wishlist;
 use App\Models\Subscriber;
 use App\Models\Page;
 use Illuminate\Http\Request;
+use App\Services\WeatherService;
 use Auth;
 
 class FrontController extends Controller
@@ -358,5 +359,46 @@ class FrontController extends Controller
         $page = Page::where('id', 1)->first();
         return view('front.privacy', compact('page'));
     }
+    protected $weather;
+
+    public function __construct(WeatherService $weather)
+    {
+        $this->weather = $weather;
+    }
+    public function weather(Request $request)
+    {
+        // 1. Fetch all locations from DB
+        $locations = Location::orderBy('name', 'asc')->get();
+
+        // 2. Prepare weather data array (keyed by location name for easy lookup)
+        $weatherData = [];
+
+        // 3. Loop through each location and fetch weather
+        foreach ($locations as $loc) {
+            $data = $this->weather->getWeather($loc->name);
+
+            if ($data && isset($data['main'])) {
+                $weatherData[$loc->name] = [
+                    'city' => $loc->name,
+                    'temp' => round($data['main']['temp'], 1),
+                    'humidity' => $data['main']['humidity'],
+                    'description' => ucfirst($data['weather'][0]['description']),
+                    'icon' => $data['weather'][0]['icon'],
+                ];
+            } else {
+                $weatherData[$loc->name] = [
+                    'city' => $loc->name,
+                    'temp' => 'N/A',
+                    'humidity' => 'N/A',
+                    'description' => 'Data not available',
+                    'icon' => null,
+                ];
+            }
+        }
+
+        // 4. Send both sets of data to the view
+        return view('front.weather', compact('locations', 'weatherData'));
+    }
+
 
 }
