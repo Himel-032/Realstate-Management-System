@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Hash;
 use Auth;
+use Illuminate\Support\Facades\Cookie;
 use App\Models\User;
 use App\Models\Agent;
 use App\Models\Wishlist;
@@ -70,6 +71,34 @@ class UserController extends Controller
 
     public function login()
     {
+        if(Auth::guard('web')->check()) {
+            return redirect()->route('dashboard');
+        }
+        // check cookies
+        $email = Cookie::get('remember_email');
+        $password = Cookie::get('remember_password');
+
+        if ($email && $password) {
+            try {
+                $credentials = [
+                    'email' => $email,
+                    'password' => decrypt($password),
+                    'status' => 1,
+                ];
+
+                if (Auth::attempt($credentials)) {
+                    return redirect()->route('dashboard')->with('success', 'Auto-login successful');
+                }
+
+            } catch (\Exception $e) {
+                // If decrypt fails or invalid cookie, forget them
+                Cookie::queue(Cookie::forget('remember_email'));
+                Cookie::queue(Cookie::forget('remember_password'));
+            }
+        }
+
+      //  return view('user.auth.login');
+
         return view('user.auth.login');
     }
     public function login_submit(Request $request)
@@ -87,6 +116,11 @@ class UserController extends Controller
         ];
 
         if(Auth::guard('web')->attempt($data)) {
+            if ($request->has('remember')) {
+                $minutes = 60 * 24 * 30; // 30 days
+                Cookie::queue('remember_email', $request->email, $minutes);
+                Cookie::queue('remember_password', encrypt($request->password), $minutes);
+            }
             return redirect()->route('dashboard')->with('success', 'Login successful');
         } else {
             return redirect()->back()->with('error', 'Invalid credentials');
@@ -97,6 +131,8 @@ class UserController extends Controller
     public function logout()
     {
         Auth::guard('web')->logout();
+        Cookie::queue(Cookie::forget('remember_email'));
+        Cookie::queue(Cookie::forget('remember_password'));
         return redirect()->route('login')->with('success', 'Logout successful');
     }
 
