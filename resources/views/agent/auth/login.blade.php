@@ -27,6 +27,10 @@
                                 <label for="" class="form-label">Password *</label>
                                 <input type="password" name="password" class="form-control">
                             </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" name="remember" class="form-check-input" id="remember">
+                                <label class="form-check-label" for="remember">Remember Me</label>
+                            </div>
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-primary bg-website">
                                     Login

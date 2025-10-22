@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Hash;
 use Auth;
+use Illuminate\Support\Facades\Cookie;
 use App\Models\Agent;
 use App\Models\Package;
 use App\Models\Order;
@@ -89,6 +90,31 @@ class AgentController extends Controller
 
     public function login()
     {
+        if (Auth::guard('agent')->check()) {
+            return redirect()->route('agent_dashboard');
+        }
+        // check cookies
+        $email = Cookie::get('agent_remember_email');
+        $password = Cookie::get('agent_remember_password');
+
+        if ($email && $password) {
+            try {
+                $credentials = [
+                    'email' => $email,
+                    'password' => decrypt($password),
+                    'status' => 1,
+                ];
+
+                if (Auth::attempt($credentials)) {
+                    return redirect()->route('agent_dashboard')->with('success', 'Auto-login successful');
+                }
+
+            } catch (\Exception $e) {
+                // If decrypt fails or invalid cookie, forget them
+                Cookie::queue(Cookie::forget('agent_remember_email'));
+                Cookie::queue(Cookie::forget('agent_remember_password'));
+            }
+        }
         return view('agent.auth.login');
     }
     public function login_submit(Request $request)
@@ -106,6 +132,11 @@ class AgentController extends Controller
         ];
 
         if (Auth::guard('agent')->attempt($data)) {
+            if ($request->has('remember')) {
+                $minutes = 60 * 24 * 30; // 30 days
+                Cookie::queue('agent_remember_email', $request->email, $minutes);
+                Cookie::queue('agent_remember_password', encrypt($request->password), $minutes);
+            }
             return redirect()->route('agent_dashboard')->with('success', 'Login successful');
         } else {
             return redirect()->back()->with('error', 'Invalid credentials');
@@ -116,6 +147,8 @@ class AgentController extends Controller
     public function logout()
     {
         Auth::guard('agent')->logout();
+        Cookie::queue(Cookie::forget('agent_remember_email'));
+        Cookie::queue(Cookie::forget('agent_remember_password'));
         return redirect()->route('agent_login')->with('success', 'Logout successful');
     }
 
