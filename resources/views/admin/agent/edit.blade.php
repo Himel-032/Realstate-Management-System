@@ -25,10 +25,10 @@
                             <div class="col-md-12 mb-3">
                                 <label for="">Existing Photo</label>
                                 <div class="form-group">
-                                    @if(Auth::guard('agent')->user()->photo == null)
+                                    @if($agent->photo == null)
                                         <img src="{{ asset('uploads/default.png') }}" alt="" class="user-photo w_100">
                                     @else
-                                        <img src="{{ asset('uploads/' . Auth::guard('agent')->user()->photo) }}" alt=""
+                                        <img src="{{ asset('uploads/' . $agent->photo) }}" alt=""
                                             class="user-photo w_100">
                                     @endif
                                 </div>
